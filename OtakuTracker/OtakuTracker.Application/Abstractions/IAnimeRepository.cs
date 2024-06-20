@@ -5,15 +5,13 @@ namespace OtakuTracker.Application.Abstractions
 {
     public interface IAnimeRepository
     {
-        Anime Create(Anime anime);
-        Anime GetById(int animeId);
-        List<Anime> GetAnimesByIds(List<int> animeIds);
-        void Update(Anime anime);
-        void Delete(int animeId);
-        List<Anime> GetAll();
-        List<Anime> GetByGenre(int genreId);
-        List<Anime> GetByTheme(int themeId);
-        List<Anime> GetByStatus(string status);
-        List<Anime> Search(string keyword);
+        Task<Anime> Create(Anime anime);
+        Task<Anime> GetById(int animeId);
+        // Task<List<Anime>> GetAnimesByIds(List<int> animeIds);
+        Task Update(Anime anime);
+        Task Delete(int animeId);
+        // Task<List<Anime>> GetAll();
+        // Task<List<Anime>> GetByGenre(int genreId);
+        // Task<List<Anime>> Search(string keyword);
     }
 }

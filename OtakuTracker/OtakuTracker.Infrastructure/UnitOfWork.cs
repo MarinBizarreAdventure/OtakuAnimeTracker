@@ -6,20 +6,20 @@ namespace OtakuTracker.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly AnimeDbContext _context;
+        private readonly OtakutrackerContext _context;
         private IDbContextTransaction _transaction;
 
         public IAnimeRepository AnimeRepository { get; private set; }
-        public IUserRepository UserRepository { get; private set; }
-        public IReviewsRepository ReviewRepository { get; private set; }
+        // public IUserRepository UserRepository { get; private set; }
+        // public IReviewsRepository ReviewRepository { get; private set; }
 
 
-        public UnitOfWork(AnimeDbContext context)
+        public UnitOfWork(OtakutrackerContext context)
         {
             _context = context;
             AnimeRepository = new AnimeRepository(_context);
-            UserRepository = new UserRepository(_context);
-            ReviewRepository = new ReviewRepository(_context);
+            // UserRepository = new UserRepository(_context);
+            // ReviewRepository = new ReviewRepository(_context);
         }
 
         

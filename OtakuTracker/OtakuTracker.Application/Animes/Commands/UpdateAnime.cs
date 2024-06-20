@@ -1,51 +1,33 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using OtakuTracker.Application.Abstractions;
 using OtakuTracker.Application.Animes.Responses;
 using OtakuTracker.Domain.Models;
 using Microsoft.Extensions.Logging;
+using OtakuTracker.Application.Animes.Records;
 
 
-namespace OtakuTracker.Application.Animes.Commands
-{
-    public record UpdateAnime(int AnimeId, string Title, string Synopsis, DateTime? StartDate, DateTime? EndDate,
-    string Status, string Type, int Episodes, int Duration, string AgeRating, string PosterImageUrl,
-    string TrailerUrl, decimal AverageRating, int TotalRatings, List<Genre> Genres, List<Theme> Themes)
-    : IRequest<AnimeDto>;
+namespace OtakuTracker.Application.Animes.Commands;
 
 
-    public class UpdateAnimeHandler : IRequestHandler<UpdateAnime, AnimeDto>
+public class UpdateAnimeHandler : IRequestHandler<UpdateAnime, AnimeDto>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<UpdateAnimeHandler> _logger;
-
-        public UpdateAnimeHandler(IUnitOfWork unitOfWork, ILogger<UpdateAnimeHandler> logger)
+        private readonly IMapper _mapper;
+        
+        
+        public UpdateAnimeHandler(IUnitOfWork unitOfWork, ILogger<UpdateAnimeHandler> logger, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public async Task<AnimeDto> Handle(UpdateAnime request, CancellationToken cancellationToken)
         {
 
-            var updatedAnime = new Anime
-            {
-                Id = request.AnimeId,
-                Title = request.Title,
-                Synopsis = request.Synopsis,
-                StartDate = request.StartDate,
-                EndDate = request.EndDate,
-                Status = request.Status,
-                Type = request.Type,
-                Episodes = request.Episodes,
-                Duration = request.Duration,
-                AgeRating = request.AgeRating,
-                PosterImageUrl = request.PosterImageUrl,
-                TrailerUrl = request.TrailerUrl,
-                AverageRating = request.AverageRating,
-                TotalRatings = request.TotalRatings,
-                Genres = request.Genres,
-                Themes = request.Themes
-            };
+            var updatedAnime =_mapper.Map<Anime>(request);;
 
             await _unitOfWork.BeginTransactionAsync();
 
@@ -64,4 +46,5 @@ namespace OtakuTracker.Application.Animes.Commands
             }
         }
     }
-}
+
+    

@@ -20,11 +20,12 @@ public class Startup(IConfiguration configuration)
         var applicationAssembly = Assembly.Load("OtakuTracker.Application");
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
 
-        services.AddDbContext<AnimeDbContext>(options =>
+        services.AddDbContext<OtakutrackerContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
+        
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
-
+        
         var jwtSection = Configuration.GetSection("Jwt");
         var key = Encoding.ASCII.GetBytes(jwtSection["Secret"] ?? string.Empty);
 

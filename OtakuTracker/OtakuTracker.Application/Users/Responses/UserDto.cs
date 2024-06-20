@@ -15,12 +15,12 @@ namespace OtakuTracker.Application.Users.Responses
         {
             return new UserDto
             {
-                UserId = user.userid,
-                Username = user.username,
-                PasswordHash = user.passwordhash,
-                Email = user.email,
-                JoinDate = user.joindate,
-                LastLogin = user.lastlogin
+                // UserId = user.userid,
+                // Username = user.username,
+                // PasswordHash = user.passwordhash,
+                // Email = user.email,
+                // JoinDate = user.joindate,
+                // LastLogin = user.lastlogin
             };
         }
 

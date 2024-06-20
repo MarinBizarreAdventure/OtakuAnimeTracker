@@ -5,12 +5,12 @@ namespace OtakuTracker.Application.Abstractions
 {
     public interface IReviewsRepository
     {
-        Review CreateReview(Review review);
-        Review GetReviewById(int reviewId);
-        List<Review> GetReviewsByUserId(int userId);
-        List<Review> GetReviewsByAnimeId(int animeId);
-        List<Review> GetReviewsByRating(decimal rating);
-        void UpdateReview(Review review);
-        void DeleteReview(int reviewId);
+        Task<Review> CreateReview(Review review);
+        Task<Review> GetReviewById(int reviewId);
+        Task<List<Review>> GetReviewsByUserId(int userId);
+        Task<List<Review>> GetReviewsByAnimeId(int animeId);
+        Task<List<Review>> GetReviewsByRating(decimal rating);
+        Task UpdateReview(Review review);
+        Task DeleteReview(int reviewId);
     }
 }
