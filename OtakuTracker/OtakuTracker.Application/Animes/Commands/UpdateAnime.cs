@@ -33,7 +33,7 @@ public class UpdateAnimeHandler : IRequestHandler<UpdateAnime, AnimeDto>
 
             try
             {
-                _unitOfWork.AnimeRepository.Update(updatedAnime);
+                await _unitOfWork.AnimeRepository.Update(updatedAnime);
                 await _unitOfWork.CommitTransactionAsync();
                 _logger.LogInformation("Anime updated successfully");
                 return AnimeDto.FromAnime(updatedAnime);

@@ -9,6 +9,6 @@ namespace OtakuTracker.Application.Abstractions
         Task<User?> GetUserByUsername(string username);
         // Task<List<User?>> GetAllUsers();
         Task<User?> UpdateUser(User? user);
-        Task DeleteUser(int userId);
+        Task<bool> DeleteUser(int userId);
     }
 }

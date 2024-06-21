@@ -14,6 +14,7 @@ namespace OtakuTracker.Infrastructure.Repositories;
 
         public async Task<Anime> Create(Anime anime)
         {
+            
             _context.Animes.Add(anime);
             await _context.SaveChangesAsync();
             return anime;
@@ -30,14 +31,17 @@ namespace OtakuTracker.Infrastructure.Repositories;
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(int animeId)
+        public async Task<bool> Delete(int animeId)
         {
             var anime = await _context.Animes.FindAsync(animeId);
+            
             if (anime != null)
             {
                 _context.Animes.Remove(anime);
                 await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
 
         // public async Task<List<Anime>> GetAnimesByIds(List<int> animeIds)

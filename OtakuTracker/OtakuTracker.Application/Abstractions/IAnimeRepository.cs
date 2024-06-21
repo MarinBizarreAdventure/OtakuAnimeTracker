@@ -9,7 +9,7 @@ namespace OtakuTracker.Application.Abstractions
         Task<Anime> GetById(int animeId);
         // Task<List<Anime>> GetAnimesByIds(List<int> animeIds);
         Task Update(Anime anime);
-        Task Delete(int animeId);
+        Task<bool> Delete(int animeId);
         // Task<List<Anime>> GetAll();
         // Task<List<Anime>> GetByGenre(int genreId);
         // Task<List<Anime>> Search(string keyword);

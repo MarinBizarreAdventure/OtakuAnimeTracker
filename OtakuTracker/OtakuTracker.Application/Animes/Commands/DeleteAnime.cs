@@ -24,10 +24,17 @@ namespace OtakuTracker.Application.Animes.Commands
 
             try
             {
-                _unitOfWork.AnimeRepository.Delete(request.AnimeId);
-                await _unitOfWork.CommitTransactionAsync();
-                _logger.LogInformation("Anime deleted successfully");
-                return true;
+                var isDeleted = await _unitOfWork.AnimeRepository.Delete(request.AnimeId);
+                if (isDeleted)
+                {
+                    await _unitOfWork.CommitTransactionAsync();
+                    _logger.LogInformation("Anime deleted successfully");
+                }
+                else
+                {
+                    _logger.LogInformation("Anime not found");
+                }
+                return isDeleted; // Return the result of deletion operation
             }
             catch (Exception ex)
             {

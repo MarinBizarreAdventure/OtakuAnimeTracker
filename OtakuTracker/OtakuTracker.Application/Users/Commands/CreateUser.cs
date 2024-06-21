@@ -17,14 +17,7 @@
 //         {
 //             logger.LogInformation("Handling request to create user");
 //
-//             var user = new User
-//             {
-//                 username = request.Username,
-//                 email = request.Email,
-//                 passwordhash = request.PasswordHash,
-//                 joindate = request.JoinDate,
-//                 lastlogin = request.LastLogin
-//             };
+//            
 //
 //             await unitOfWork.BeginTransactionAsync();
 //

@@ -23,7 +23,8 @@ public class CreateAnimeHandler : IRequestHandler<CreateAnime, AnimeDto>
     }
 
     public async Task<AnimeDto> Handle(CreateAnime request, CancellationToken cancellationToken)
-    { 
+    {
+        
         var anime = _mapper.Map<Anime>(request);
 
         await _unitOfWork.BeginTransactionAsync();

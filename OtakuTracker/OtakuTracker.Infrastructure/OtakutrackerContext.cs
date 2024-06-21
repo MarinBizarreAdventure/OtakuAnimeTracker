@@ -42,9 +42,7 @@ public partial class OtakutrackerContext : DbContext
 
             entity.ToTable("anime");
 
-            entity.Property(e => e.AnimeId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("anime_id");
+            entity.Property(e => e.AnimeId).HasColumnName("anime_id");
             entity.Property(e => e.Aired).HasColumnName("aired");
             entity.Property(e => e.Completed).HasColumnName("completed");
             entity.Property(e => e.Dropped).HasColumnName("dropped");
@@ -194,13 +192,14 @@ public partial class OtakutrackerContext : DbContext
             entity.HasIndex(e => e.Username, "users_username_key").IsUnique();
 
             entity.Property(e => e.UserId)
-                .ValueGeneratedNever()
-                .HasColumnName("user_id");
+                .ValueGeneratedOnAdd()
+                    .HasColumnName("user_id");
             entity.Property(e => e.AccessRank).HasColumnName("access_rank");
             entity.Property(e => e.BirthDate).HasColumnName("birth_date");
             entity.Property(e => e.Email).HasColumnName("email");
             entity.Property(e => e.Gender).HasColumnName("gender");
-            entity.Property(e => e.JoinDate).HasColumnName("join_date");
+            entity.Property(e => e.JoinDate).HasColumnName("join_date")
+                .HasColumnType("timestamp without time zone");
             entity.Property(e => e.LastOnline)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("last_online");

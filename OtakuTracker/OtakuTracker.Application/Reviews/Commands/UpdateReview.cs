@@ -1,43 +1,56 @@
-﻿// using MediatR;
-// using Microsoft.Extensions.Logging;
-// using OtakuTracker.Application.Abstractions;
-// using OtakuTracker.Application.Reviews.Responses;
-//
-// namespace OtakuTracker.Application.Reviews.Commands
-// {
-//     public record UpdateReview(int ReviewId, decimal Rating, string ReviewText) : IRequest<ReviewDto>;
-//
-//     public class UpdateReviewHandler : IRequestHandler<UpdateReview, ReviewDto>
-//     {
-//         private readonly IUnitOfWork _unitOfWork;
-//         private readonly ILogger<UpdateReviewHandler> _logger;
-//
-//         public UpdateReviewHandler(IUnitOfWork unitOfWork, ILogger<UpdateReviewHandler> logger)
-//         {
-//             _unitOfWork = unitOfWork;
-//             _logger = logger;
-//         }
-//
-//         public async Task<ReviewDto> Handle(UpdateReview request, CancellationToken cancellationToken)
-//         {
-//             _logger.LogInformation("Handling request to update review");
-//
-//             var review = _unitOfWork.ReviewRepository.GetReviewById(request.ReviewId);
-//             if (review == null)
-//             {
-//                 _logger.LogWarning($"Review with ID {request.ReviewId} not found");
-//                 return null; // Or throw appropriate exception
-//             }
-//
-//             review.Rating = request.Rating;
-//             review.ReviewText = request.ReviewText;
-//
-//             _unitOfWork.ReviewRepository.UpdateReview(review);
-//
-//             await _unitOfWork.CommitTransactionAsync();
-//
-//             _logger.LogInformation("Review updated successfully");
-//             return ReviewDto.FromReview(review);
-//         }
-//     }
-// }
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.Extensions.Logging;
+using OtakuTracker.Application.Abstractions;
+using OtakuTracker.Application.Reviews.Responses;
+using OtakuTracker.Domain.Models;
+
+namespace OtakuTracker.Application.Reviews.Commands
+{
+    public record UpdateReview(int ReviewId, string? ReviewText, int? Rating, DateOnly? ReviewDate) : IRequest<ReviewDto>;
+
+    public class UpdateReviewHandler : IRequestHandler<UpdateReview, ReviewDto>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<UpdateReviewHandler> _logger;
+        private readonly IMapper _mapper;
+
+        public UpdateReviewHandler(IUnitOfWork unitOfWork, ILogger<UpdateReviewHandler> logger, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _logger = logger;
+            _mapper = mapper;
+        }
+
+        public async Task<ReviewDto> Handle(UpdateReview request, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Handling request to update review");
+
+            await _unitOfWork.BeginTransactionAsync();
+
+            try
+            {   
+                var existingReview = await _unitOfWork.ReviewRepository.GetReviewById(request.ReviewId);
+                if (existingReview == null)
+                {
+                    _logger.LogWarning("Review not found with ID: {ReviewId}", request.ReviewId);
+                    throw new KeyNotFoundException($"Review with ID {request.ReviewId} not found.");
+                }
+                
+                var review = _mapper.Map<Review>(request);
+               
+                await _unitOfWork.ReviewRepository.UpdateReview(review);
+                await _unitOfWork.CommitTransactionAsync();
+
+                _logger.LogInformation("Review updated successfully");
+                return ReviewDto.FromReview(review);
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                _logger.LogError(ex, "Failed to update review");
+                throw;
+            }
+        }
+    }
+}

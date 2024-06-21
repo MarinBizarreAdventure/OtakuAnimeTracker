@@ -1,52 +1,58 @@
-﻿// using OtakuTracker.Application.Abstractions;
-// using OtakuTracker.Infrastructure.Models;
-// using User = OtakuTracker.Domain.Models.User;
-//
-// namespace OtakuTracker.Infrastructure.Repositories;
-//
-// public class UserRepository : IUserRepository
-// {
-//     private readonly OtakutrackerContext _context;
-//
-//     public UserRepository(OtakutrackerContext context)
-//     {
-//         _context = context;
-//     }
-//
-//     public User? CreateUser(User? user)
-//     {
-//         _context.users.Add(user);
-//         _context.SaveChanges();
-//         return user;
-//     }
-//
-//     public User? GetUserById(int userId)
-//     {
-//         return _context.users.Find(userId);
-//     }
-//
-//     public User? GetUserByUsername(string username)
-//     {
-//         return _context.users.FirstOrDefault(u => u != null && u.username == username);
-//     }
-//
-//     public List<User?> GetAllUsers()
-//     {
-//         return _context.users.ToList();
-//     }
-//
-//     public User? UpdateUser(User? user)
-//     {
-//         _context.users.Update(user);
-//         _context.SaveChanges();
-//         return user;
-//     }
-//
-//     public void DeleteUser(int userId)
-//     {
-//         var user = _context.users.Find(userId);
-//         if (user == null) return;
-//         _context.users.Remove(user);
-//         _context.SaveChanges();
-//     }
-// }
+﻿using Microsoft.EntityFrameworkCore;
+using OtakuTracker.Application.Abstractions;
+using OtakuTracker.Infrastructure.Models;
+using User = OtakuTracker.Domain.Models.User;
+
+namespace OtakuTracker.Infrastructure.Repositories;
+
+public class UserRepository : IUserRepository
+{
+    private readonly OtakutrackerContext _context;
+
+    public UserRepository(OtakutrackerContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<User?> CreateUser(User? user)
+    {
+        user.LastOnline = user.LastOnline?.ToUniversalTime();
+
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return user;
+    }
+
+    public async Task<User?> GetUserById(int userId)
+    {
+        return await _context.Users.FindAsync(userId);
+    }
+
+    public async Task<User?> GetUserByUsername(string username)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+    }
+
+    public async Task<List<User>> GetAllUsers()
+    {
+        return await _context.Users.ToListAsync();
+    }
+
+    public async Task<User?> UpdateUser(User? user)
+    {
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        return user;
+    }
+
+    public async Task<bool> DeleteUser(int userId)
+    {
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null)
+            return false;
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+}

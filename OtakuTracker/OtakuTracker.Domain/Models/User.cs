@@ -30,7 +30,7 @@ public class User
 
     public int? AccessRank { get; set; }
 
-    public DateOnly? JoinDate { get; set; }
+    public DateTime? JoinDate { get; set; }
 
     public DateTime? LastOnline { get; set; }
 

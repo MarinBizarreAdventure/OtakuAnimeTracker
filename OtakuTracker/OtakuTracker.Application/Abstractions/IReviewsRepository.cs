@@ -11,6 +11,6 @@ namespace OtakuTracker.Application.Abstractions
         Task<List<Review>> GetReviewsByAnimeId(int animeId);
         Task<List<Review>> GetReviewsByRating(decimal rating);
         Task UpdateReview(Review review);
-        Task DeleteReview(int reviewId);
+        Task<bool> DeleteReview(int reviewId);
     }
 }

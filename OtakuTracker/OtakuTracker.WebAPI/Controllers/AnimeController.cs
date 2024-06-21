@@ -69,11 +69,12 @@ public class AnimeController : ControllerBase
     public async Task<IActionResult> DeleteAnime(int id)
     {
         var command = new DeleteAnime(id);
-        var result = await _mediator.Send(command);
-        if (!result)
-        {
-            return NotFound();
-        }
-        return NoContent();
+             var result = await _mediator.Send(command);
+             if (!result)
+             {
+                 return NotFound();
+             }
+             return NoContent();
+        
     }
 }

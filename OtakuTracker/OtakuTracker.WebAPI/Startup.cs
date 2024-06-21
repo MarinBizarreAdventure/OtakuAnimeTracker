@@ -23,7 +23,8 @@ public class Startup(IConfiguration configuration)
         services.AddDbContext<OtakutrackerContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
-        
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
         
         var jwtSection = Configuration.GetSection("Jwt");
