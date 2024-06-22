@@ -21,17 +21,21 @@ public class RemoveAnimeFromUserListHandler : IRequestHandler<RemoveAnimeFromUse
 
         try
         {
+            await _unitOfWork.BeginTransactionAsync();
+
             await _unitOfWork.AnimeListRepository.RemoveAnimeFromUserList(request.Username, request.AnimeId);
             await _unitOfWork.CommitTransactionAsync();
+
             _logger.LogInformation("AnimeList item deleted successfully");
 
             return true;
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             await _unitOfWork.RollbackTransactionAsync();
-            _logger.LogError(ex, "Failed to delete AnimeList item");
-            throw;
+            var errorMessage = "Failed to delete AnimeList item";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
         }
     }
 }

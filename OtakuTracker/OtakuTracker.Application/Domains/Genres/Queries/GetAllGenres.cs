@@ -24,12 +24,21 @@ public class GetAllGenresHandler : IRequestHandler<GetAllGenres, List<GenreDto>>
 
     public async Task<List<GenreDto>> Handle(GetAllGenres request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Handling request to get all genres");
+        try
+        {
+            _logger.LogInformation("Handling request to get all genres");
 
-        var genres = await _unitOfWork.GenresRepository.GetAllGenres();
-        var genreDtos = _mapper.Map<List<GenreDto>>(genres);
+            var genres = await _unitOfWork.GenresRepository.GetAllGenres();
+            var genreDtos = _mapper.Map<List<GenreDto>>(genres);
 
-        _logger.LogInformation($"Found {genreDtos.Count} genres");
-        return genreDtos;
+            _logger.LogInformation($"Found {genreDtos.Count} genres");
+            return genreDtos;
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = "Failed to get all genres";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
+        }
     }
 }

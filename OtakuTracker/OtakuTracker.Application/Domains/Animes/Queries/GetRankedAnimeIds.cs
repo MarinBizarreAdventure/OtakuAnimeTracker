@@ -19,9 +19,18 @@ public class GetRankedAnimeIdsHandler : IRequestHandler<GetRankedAnimeIds, List<
 
     public async Task<List<int>> Handle(GetRankedAnimeIds request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Handling request to get ranked anime IDs");
+        try
+        {
+            _logger.LogInformation("Handling request to get ranked anime IDs");
 
-        var animeIds = await _unitOfWork.AnimeRepository.GetRankedAnimeIds(request.Page, request.PageSize, request.SortOrder);
-        return animeIds;
+            var animeIds = await _unitOfWork.AnimeRepository.GetRankedAnimeIds(request.Page, request.PageSize, request.SortOrder);
+            return animeIds;
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = "Failed to get ranked anime IDs";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
+        }
     }
 }

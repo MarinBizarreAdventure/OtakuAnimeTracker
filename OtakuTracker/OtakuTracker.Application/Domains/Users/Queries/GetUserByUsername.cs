@@ -22,18 +22,33 @@ namespace OtakuTracker.Application.Users.Queries
 
         public async Task<UserDto> Handle(GetUserByUsername request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Handling request to get user by username: {Username}", request.Username);
-
-            var user = await _unitOfWork.UserRepository.GetUserByUsername(request.Username);
-
-            if (user == null)
+            try
             {
-                _logger.LogInformation("User with username {Username} not found", request.Username);
-                return null;
-            }
+                _logger.LogInformation("Handling request to get user by username: {Username}", request.Username);
 
-            _logger.LogInformation("User with username {Username} found", request.Username);
-            return UserDto.FromUser(user);
+                var user = await _unitOfWork.UserRepository.GetUserByUsername(request.Username);
+
+                if (user == null)
+                {
+                    var notFoundMessage = $"User with username {request.Username} not found";
+                    _logger.LogWarning(notFoundMessage);
+                    throw new KeyNotFoundException(notFoundMessage); // You can use a specific exception type if needed
+                }
+
+                _logger.LogInformation("User with username {Username} found", request.Username);
+                return UserDto.FromUser(user);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex.Message);
+                throw new Exception(ex.Message); // Re-throw specific exception
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = "An error occurred while retrieving user by username";
+                _logger.LogError(ex, errorMessage);
+                throw new Exception(errorMessage);
+            }
         }
     }
 }

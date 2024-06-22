@@ -32,8 +32,9 @@ public class GetAllGenreIdsByAnimeIdHandler : IRequestHandler<GetAllGenreIdsByAn
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Failed to get genre IDs for anime with ID {request.AnimeId}");
-            throw; // Re-throw the exception to propagate it to the caller
+            var errorMessage = $"Failed to get genre IDs for anime with ID {request.AnimeId}";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
         }
     }
 }

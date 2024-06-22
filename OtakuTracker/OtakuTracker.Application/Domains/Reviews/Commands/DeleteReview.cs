@@ -51,8 +51,9 @@ namespace OtakuTracker.Application.Reviews.Commands
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-                _logger.LogError(ex, "Failed to delete review");
-                throw;
+                var errorMessage = "Failed to delete review";
+                _logger.LogError(ex, errorMessage);
+                throw new Exception(errorMessage);
             }
         }
     }

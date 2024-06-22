@@ -85,73 +85,10 @@ public class Startup(IConfiguration configuration)
         });
 
         app.UseMiddleware<RequestTimingMiddleware>();
-
+        app.UseMiddleware<GlobalExceptionMiddleware>();
+        
         app.UseEndpoints(endpoints =>
         {
-            // endpoints.MapControllerRoute(
-            //     name: "default",
-            //     pattern: "{controller=Home}/{action=Index}/{id?}");
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "createAnime",
-            //     pattern: "api/anime/create",
-            //     defaults: new { controller = "Anime", action = "CreateAnime" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "getAnime",
-            //     pattern: "api/anime/{id}",
-            //     defaults: new { controller = "Anime", action = "GetAnimeById" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "updateAnime",
-            //     pattern: "api/anime/{id}/update",
-            //     defaults: new { controller = "Anime", action = "UpdateAnime" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "deleteAnime",
-            //     pattern: "api/anime/{id}/delete",
-            //     defaults: new { controller = "Anime", action = "DeleteAnime" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "createUser",
-            //     pattern: "api/user/create",
-            //     defaults: new { controller = "User", action = "CreateUser" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "getUser",
-            //     pattern: "api/user/{id}",
-            //     defaults: new { controller = "User", action = "GetUserById" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "updateUser",
-            //     pattern: "api/user/{id}/update",
-            //     defaults: new { controller = "User", action = "UpdateUser" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "deleteUser",
-            //     pattern: "api/user/{id}/delete",
-            //     defaults: new { controller = "User", action = "DeleteUser" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "getAllUsers",
-            //     pattern: "api/user",
-            //     defaults: new { controller = "User", action = "GetAllUsers" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "createReview",
-            //     pattern: "review/create",
-            //     defaults: new { controller = "Review", action = "Create" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "getReview",
-            //     pattern: "review/{id}",
-            //     defaults: new { controller = "Review", action = "Get" });
-            //
-            // endpoints.MapControllerRoute(
-            //     name: "updateReview",
-            //     pattern: "review/{id}/update",
-            //     defaults: new { controller = "Review", action = "Update" });
-
             endpoints.MapControllers();
         });
     }

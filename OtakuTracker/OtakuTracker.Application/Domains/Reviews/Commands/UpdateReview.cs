@@ -37,19 +37,23 @@ namespace OtakuTracker.Application.Reviews.Commands
                     throw new KeyNotFoundException($"Review with ID {request.ReviewId} not found.");
                 }
 
-                var review = _mapper.Map(request,existingReview);
-               
+                var review = _mapper.Map(request, existingReview);
+            
                 await _unitOfWork.ReviewRepository.UpdateReview(review);
                 await _unitOfWork.CommitTransactionAsync();
 
                 _logger.LogInformation("Review updated successfully");
                 return ReviewDto.FromReview(review);
             }
+            catch (KeyNotFoundException)
+            {
+                throw; // Rethrow the KeyNotFoundException directly
+            }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
                 _logger.LogError(ex, "Failed to update review");
-                throw;
+                throw new Exception("Failed to update review. Please try again later.");
             }
         }
     }

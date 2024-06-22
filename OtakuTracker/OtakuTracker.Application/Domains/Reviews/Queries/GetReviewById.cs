@@ -40,8 +40,9 @@ namespace OtakuTracker.Application.Reviews.Queries
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while getting review with ID: {ReviewId}", request.ReviewId);
-                return null;
+                var errorMessage = $"Error occurred while getting review with ID: {request.ReviewId}";
+                _logger.LogError(ex, errorMessage);
+                throw new Exception(errorMessage);
             }
         }
     }

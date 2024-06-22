@@ -41,9 +41,10 @@ public class CreateAnimeListHandler : IRequestHandler<CreateAnimeList, AnimeList
         }
         catch (Exception ex)
         {
+            var errorMessage = "Failed to create AnimeList";
             await _unitOfWork.RollbackTransactionAsync();
-            _logger.LogError(ex, "Failed to create AnimeList");
-            throw;
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
         }
     }
 }

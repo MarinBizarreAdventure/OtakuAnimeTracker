@@ -22,19 +22,30 @@ namespace OtakuTracker.Application.Animes.Queries;
 
         public async Task<AnimeDto> Handle(GetByIdAnime request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Handling request to get anime by ID");
-
-            var anime = await _unitOfWork.AnimeRepository.GetById(request.AnimeId);
-    
-            if (anime == null)
+            try
             {
-                _logger.LogWarning($"Anime with ID {request.AnimeId} not found");
-                return null; // Or throw an exception if required
+                _logger.LogInformation("Handling request to get anime by ID");
+
+                var anime = await _unitOfWork.AnimeRepository.GetById(request.AnimeId);
+
+                if (anime == null)
+                {
+                    var errorMessage = $"Anime with ID {request.AnimeId} not found";
+                    _logger.LogWarning(errorMessage);
+                    throw new Exception(errorMessage); 
+                }
+
+                var animeDto = _mapper.Map<AnimeDto>(anime);
+
+                _logger.LogInformation($"Anime with ID {request.AnimeId} found");
+                return animeDto;
             }
-
-            var animeDto = _mapper.Map<AnimeDto>(anime);
-
-            _logger.LogInformation($"Anime with ID {request.AnimeId} found");
-            return animeDto;
+            catch (Exception ex)
+            {
+                var errorMessage = $"Error occurred while getting anime by ID {request.AnimeId}";
+                _logger.LogError(ex, errorMessage);
+                throw new Exception(errorMessage);
+            }
         }
+        
     }

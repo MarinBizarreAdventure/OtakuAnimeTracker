@@ -19,12 +19,12 @@ namespace OtakuTracker.Application.Users.Commands
 
         public async Task<bool> Handle(DeleteUser request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Handling request to delete user with ID: {UserId}", request.UserId);
-
-            await _unitOfWork.BeginTransactionAsync();
-
             try
             {
+                _logger.LogInformation("Handling request to delete user with ID: {UserId}", request.UserId);
+
+                await _unitOfWork.BeginTransactionAsync();
+
                 var deletionResult = await _unitOfWork.UserRepository.DeleteUser(request.UserId);
 
                 if (deletionResult)
@@ -42,10 +42,12 @@ namespace OtakuTracker.Application.Users.Commands
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-                _logger.LogError(ex, "Failed to delete user with ID: {UserId}", request.UserId);
-                return false;
+                var errorMessage = $"Failed to delete user with ID: {request.UserId}";
+                _logger.LogError(ex, errorMessage);
+                throw new Exception(errorMessage);
             }
         }
+        
     }
 
 

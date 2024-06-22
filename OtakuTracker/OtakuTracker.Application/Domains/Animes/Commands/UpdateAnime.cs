@@ -41,8 +41,9 @@ public class UpdateAnimeHandler : IRequestHandler<UpdateAnime, AnimeDto>
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-                _logger.LogError(ex, "Failed to update anime");
-                throw;
+                var errorMessage = "Failed to update anime";
+                _logger.LogError(ex, errorMessage);
+                throw new Exception(errorMessage);
             }
         }
     }

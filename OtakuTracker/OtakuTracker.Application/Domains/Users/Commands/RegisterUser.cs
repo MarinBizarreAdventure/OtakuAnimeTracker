@@ -51,8 +51,9 @@ public class RegisterUserHandler : IRequestHandler<RegisterUser, UserDto>
         catch (Exception ex)
         {
             await _unitOfWork.RollbackTransactionAsync();
-            _logger.LogError(ex, "Failed to register user");
-            throw;
+            var errorMessage = "Failed to register user";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
         }
     }
 }

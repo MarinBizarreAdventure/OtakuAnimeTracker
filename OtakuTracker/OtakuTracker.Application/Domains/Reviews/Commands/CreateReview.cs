@@ -36,8 +36,9 @@ namespace OtakuTracker.Application.Reviews.Commands
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to create review");
-                throw;
+                var errorMessage = "Failed to create review";
+                _logger.LogError(ex, errorMessage);
+                throw new Exception(errorMessage);
             }
         }
     }

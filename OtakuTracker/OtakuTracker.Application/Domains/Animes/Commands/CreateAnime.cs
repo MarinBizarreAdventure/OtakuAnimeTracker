@@ -37,11 +37,12 @@ public class CreateAnimeHandler : IRequestHandler<CreateAnime, AnimeDto>
 
             return AnimeDto.FromAnime(createdAnime);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             await _unitOfWork.RollbackTransactionAsync();
-            _logger.LogError(ex, "Failed to create anime");
-            throw;
+            var errorMessage = "Failed to create anime.";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
         }
     }
 }

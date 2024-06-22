@@ -41,8 +41,9 @@ public class GetAnimeSummaryByIdHandler : IRequestHandler<GetAnimeSummaryById, A
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error occurred while getting anime summary for ID {request.AnimeId}");
-            throw;
+            var errorMessage = $"Error occurred while getting anime summary for ID {request.AnimeId}";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
         }
     }
 }

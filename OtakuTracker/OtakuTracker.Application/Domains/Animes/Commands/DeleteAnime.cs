@@ -34,13 +34,15 @@ namespace OtakuTracker.Application.Animes.Commands
                 {
                     _logger.LogInformation("Anime not found");
                 }
-                return isDeleted; // Return the result of deletion operation
+                return isDeleted; 
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-                _logger.LogError(ex, "Failed to delete anime with ID: {AnimeId}", request.AnimeId);
-                throw;
+                var errorMessage = $"Failed to delete anime with ID: {request.AnimeId}";
+
+                _logger.LogError(ex, errorMessage);
+                throw new Exception(errorMessage);
             }
         }
     }

@@ -40,8 +40,9 @@ public class CreateAnimeGenresHandler : IRequestHandler<CreateAnimeGenres, List<
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to create anime genres.");
-            throw; 
+            var errorMessage = "Failed to create anime genres.";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
         }
     }
 }

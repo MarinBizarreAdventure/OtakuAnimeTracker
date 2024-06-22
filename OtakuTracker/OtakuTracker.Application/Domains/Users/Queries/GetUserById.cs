@@ -24,17 +24,26 @@ public class GetUserByIdHandler : IRequestHandler<GetUserById, UserDto>
 
     public async Task<UserDto> Handle(GetUserById request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Handling request to get user by ID: {UserId}", request.UserId);
-
-        var user = await _unitOfWork.UserRepository.GetUserById(request.UserId);
-
-        if (user == null)
+        try
         {
-            _logger.LogInformation("User with ID {UserId} not found", request.UserId);
-            return null;
-        }
+            _logger.LogInformation("Handling request to get user by ID: {UserId}", request.UserId);
 
-        _logger.LogInformation("User with ID {UserId} found", request.UserId);
-        return UserDto.FromUser(user);
+            var user = await _unitOfWork.UserRepository.GetUserById(request.UserId);
+
+            if (user == null)
+            {
+                _logger.LogWarning("User with ID {UserId} not found", request.UserId);
+                return null; 
+            }
+
+            _logger.LogInformation("User with ID {UserId} found", request.UserId);
+            return UserDto.FromUser(user);
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = $"Failed to get user with ID: {request.UserId}";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage, ex);
+        }
     }
 }

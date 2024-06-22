@@ -24,19 +24,28 @@ public class GetAnimeListHandler : IRequestHandler<GetAnimeList, List<AnimeListD
 
     public async Task<List<AnimeListDto>> Handle(GetAnimeList request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation($"Handling request to get anime list for user: {request.Username}");
-
-        var animeList = await _unitOfWork.AnimeListRepository.GetUserListByUserId(request.Username);
-
-        if (animeList == null)
+        try
         {
-            _logger.LogWarning($"Anime list for user: {request.Username} not found");
-            return new List<AnimeListDto>(); // Or throw an exception if required
+            _logger.LogInformation($"Handling request to get anime list for user: {request.Username}");
+
+            var animeList = await _unitOfWork.AnimeListRepository.GetUserListByUserId(request.Username);
+
+            if (animeList == null)
+            {
+                _logger.LogWarning($"Anime list for user: {request.Username} not found");
+                return new List<AnimeListDto>();
+            }
+
+            var animeListDto = _mapper.Map<List<AnimeListDto>>(animeList);
+
+            _logger.LogInformation($"Anime list for user: {request.Username} found");
+            return animeListDto;
         }
-
-        var animeListDto = _mapper.Map<List<AnimeListDto>>(animeList);
-
-        _logger.LogInformation($"Anime list for user: {request.Username} found");
-        return animeListDto;
+        catch (Exception ex)
+        {
+            var errorMessage = $"Error occurred while getting anime list for user: {request.Username}";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
+        }
     }
 }

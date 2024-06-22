@@ -10,19 +10,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff2e2cbc-9273-42a7-9a3a-1475827825ea" name="Changes" comment="AnimeGenres, and other work">
-      <change afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetAnimeSummaryById.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetPopularAnimeIds.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetRankedAnimeIds.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/Controllers/GalleryController.cs" afterDir="false" />
+    <list default="true" id="ff2e2cbc-9273-42a7-9a3a-1475827825ea" name="Changes" comment="Gallery endpoints, pagination, sorting">
+      <change afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/Middleware/GlobalExceptionMiddleware.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.OtakuTracker/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.OtakuTracker/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeGenreRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeGenreRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeGenres/Commands/CreateAnimeGenresHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeGenres/Commands/CreateAnimeGenresHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeGenres/Queries/GetAllAnimeIdsByGenreId.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeGenres/Queries/GetAllAnimeIdsByGenreId.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Responses/AnimeSummaryDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Responses/AnimeSummaryDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeGenreRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeGenreRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.WebAPI/Controllers/AnimeGenreController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/Controllers/AnimeGenreController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeGenres/Queries/GetAllGenreIdsByAnimeHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeGenres/Queries/GetAllGenreIdsByAnimeHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeLists/Commands/CreateAnimeList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeLists/Commands/CreateAnimeList.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeLists/Commands/DeleteAnimeList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeLists/Commands/DeleteAnimeList.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeLists/Queries/GetAnimeList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeLists/Queries/GetAnimeList.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Commands/CreateAnime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Commands/CreateAnime.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Commands/DeleteAnime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Commands/DeleteAnime.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Commands/UpdateAnime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Commands/UpdateAnime.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetAnimeSummaryById.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetAnimeSummaryById.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetByIdAnime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetByIdAnime.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetPopularAnimeIds.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetPopularAnimeIds.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetRankedAnimeIds.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/GetRankedAnimeIds.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Genres/Queries/GetAllGenres.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Genres/Queries/GetAllGenres.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Genres/Queries/GetGenreById.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Genres/Queries/GetGenreById.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Reviews/Commands/CreateReview.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Reviews/Commands/CreateReview.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Reviews/Commands/DeleteReview.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Reviews/Commands/DeleteReview.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Reviews/Commands/UpdateReview.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Reviews/Commands/UpdateReview.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Reviews/Queries/GetReviewById.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Reviews/Queries/GetReviewById.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/DeleteUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/DeleteUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/LoginUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/LoginUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/RegisterUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/RegisterUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/UpdateUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/UpdateUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Queries/GetUserById.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Queries/GetUserById.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Queries/GetUserByUsername.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Queries/GetUserByUsername.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.WebAPI/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/Startup.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,7 +195,7 @@
       <workItem from="1718698448941" duration="6793000" />
       <workItem from="1718812903799" duration="38296000" />
       <workItem from="1718966366697" duration="37868000" />
-      <workItem from="1719053185565" duration="23692000" />
+      <workItem from="1719053185565" duration="27929000" />
     </task>
     <task id="LOCAL-00001" summary="removed unused code">
       <option name="closed" value="true" />
@@ -229,7 +245,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719078044972</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Gallery endpoints, pagination, sorting">
+      <option name="closed" value="true" />
+      <created>1719090562152</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719090562152</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,6 +282,7 @@
     <MESSAGE value="models" />
     <MESSAGE value="CRUD Operations" />
     <MESSAGE value="AnimeGenres, and other work" />
-    <option name="LAST_COMMIT_MESSAGE" value="AnimeGenres, and other work" />
+    <MESSAGE value="Gallery endpoints, pagination, sorting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gallery endpoints, pagination, sorting" />
   </component>
 </project>

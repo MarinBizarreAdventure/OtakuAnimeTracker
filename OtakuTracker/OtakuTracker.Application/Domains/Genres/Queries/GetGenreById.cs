@@ -24,19 +24,28 @@ public class GetGenreByIdHandler : IRequestHandler<GetGenreById, GenreDto>
 
     public async Task<GenreDto> Handle(GetGenreById request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Handling request to get genre by ID");
-
-        var genre = await _unitOfWork.GenresRepository.GetGenresById(request.GenreId);
-
-        if (genre == null)
+        try
         {
-            _logger.LogWarning($"Genre with ID {request.GenreId} not found");
-            return null; // Or throw an exception if required
+            _logger.LogInformation("Handling request to get genre by ID");
+
+            var genre = await _unitOfWork.GenresRepository.GetGenresById(request.GenreId);
+
+            if (genre == null)
+            {
+                _logger.LogWarning($"Genre with ID {request.GenreId} not found");
+                return null;
+            }
+
+            var genreDto = _mapper.Map<GenreDto>(genre);
+
+            _logger.LogInformation($"Genre with ID {request.GenreId} found");
+            return genreDto;
         }
-
-        var genreDto = _mapper.Map<GenreDto>(genre);
-
-        _logger.LogInformation($"Genre with ID {request.GenreId} found");
-        return genreDto;
+        catch (Exception ex)
+        {
+            var errorMessage = $"Error occurred while getting genre with ID {request.GenreId}";
+            _logger.LogError(ex, errorMessage);
+            throw new Exception(errorMessage);
+        }
     }
 }

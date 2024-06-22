@@ -68,8 +68,9 @@ namespace OtakuTracker.Application.Users.Commands
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-                _logger.LogError(ex, "Failed to update user with ID: {UserId}", request.UserId);
-                throw;
+                var errorMessage = $"Failed to update user with ID: {request.UserId}";
+                _logger.LogError(ex, errorMessage);
+                throw new Exception(errorMessage);
             }
         }
     }
