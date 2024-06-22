@@ -30,6 +30,13 @@ namespace OtakuTracker.Application.Reviews.Commands
             try
             {
                 var review = _mapper.Map<Review>(request);
+                if (review.Rating > 10 || review.Rating < 1)
+                {
+                    var errorMessage = "Rating should be in this range [1,10]";
+                    _logger.LogError(errorMessage);
+                    throw new Exception(errorMessage);
+                }
+                
                 var createdReview = await _unitOfWork.ReviewRepository.CreateReview(review);
                 _logger.LogInformation("Review created successfully");
                 return ReviewDto.FromReview(createdReview);
@@ -38,7 +45,7 @@ namespace OtakuTracker.Application.Reviews.Commands
             {
                 var errorMessage = "Failed to create review";
                 _logger.LogError(ex, errorMessage);
-                throw new Exception(errorMessage);
+                throw new Exception(errorMessage + ex.Message);
             }
         }
     }
