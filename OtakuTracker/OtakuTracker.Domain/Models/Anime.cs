@@ -79,11 +79,9 @@ public class Anime
 
     public int? Score1 { get; set; }
 
+    public virtual ICollection<AnimeGenre> AnimeGenres { get; set; } = new List<AnimeGenre>();
+
     public virtual ICollection<AnimeList> AnimeLists { get; set; } = new List<AnimeList>();
 
-    public virtual ICollection<RatingComplete> RatingCompletes { get; set; } = new List<RatingComplete>();
-
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
-
-    public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();
 }

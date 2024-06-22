@@ -18,11 +18,11 @@ public partial class OtakutrackerContext : DbContext
 
     public virtual DbSet<Anime> Animes { get; set; }
 
+    public virtual DbSet<AnimeGenre> AnimeGenres { get; set; }
+
     public virtual DbSet<AnimeList> AnimeLists { get; set; }
 
     public virtual DbSet<Genre> Genres { get; set; }
-
-    public virtual DbSet<RatingComplete> RatingCompletes { get; set; }
 
     public virtual DbSet<Review> Reviews { get; set; }
 
@@ -32,7 +32,7 @@ public partial class OtakutrackerContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=otakutracker;Username=postgres;Password=postgres");
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=otakutracker;Username=postgres;Password=postgres");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -78,23 +78,25 @@ public partial class OtakutrackerContext : DbContext
             entity.Property(e => e.Synopsis).HasColumnName("synopsis");
             entity.Property(e => e.Type).HasColumnName("type");
             entity.Property(e => e.Watching).HasColumnName("watching");
+        });
 
-            entity.HasMany(d => d.Genres).WithMany(p => p.Animes)
-                .UsingEntity<Dictionary<string, object>>(
-                    "AnimeGenre",
-                    r => r.HasOne<Genre>().WithMany()
-                        .HasForeignKey("GenreId")
-                        .HasConstraintName("anime_genre_genre_id_fkey"),
-                    l => l.HasOne<Anime>().WithMany()
-                        .HasForeignKey("AnimeId")
-                        .HasConstraintName("anime_genre_anime_id_fkey"),
-                    j =>
-                    {
-                        j.HasKey("AnimeId", "GenreId").HasName("anime_genre_pkey");
-                        j.ToTable("anime_genre");
-                        j.IndexerProperty<int>("AnimeId").HasColumnName("anime_id");
-                        j.IndexerProperty<int>("GenreId").HasColumnName("genre_id");
-                    });
+        modelBuilder.Entity<AnimeGenre>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("anime_genre_pkey");
+
+            entity.ToTable("anime_genre");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AnimeId).HasColumnName("anime_id");
+            entity.Property(e => e.GenreId).HasColumnName("genre_id");
+
+            entity.HasOne(d => d.Anime).WithMany(p => p.AnimeGenres)
+                .HasForeignKey(d => d.AnimeId)
+                .HasConstraintName("anime_genre_anime_id_fkey");
+
+            entity.HasOne(d => d.Genre).WithMany(p => p.AnimeGenres)
+                .HasForeignKey(d => d.GenreId)
+                .HasConstraintName("anime_genre_genre_id_fkey");
         });
 
         modelBuilder.Entity<AnimeList>(entity =>
@@ -145,22 +147,6 @@ public partial class OtakutrackerContext : DbContext
             entity.Property(e => e.GenreName).HasColumnName("genre_name");
         });
 
-        modelBuilder.Entity<RatingComplete>(entity =>
-        {
-            entity.HasKey(e => new { e.UserId, e.AnimeId }).HasName("rating_complete_pkey");
-
-            entity.ToTable("rating_complete");
-
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.AnimeId).HasColumnName("anime_id");
-            entity.Property(e => e.Rating).HasColumnName("rating");
-
-            entity.HasOne(d => d.Anime).WithMany(p => p.RatingCompletes)
-                .HasForeignKey(d => d.AnimeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("rating_complete_anime_id_fkey");
-        });
-
         modelBuilder.Entity<Review>(entity =>
         {
             entity.HasKey(e => e.ReviewId).HasName("review_pkey");
@@ -192,14 +178,15 @@ public partial class OtakutrackerContext : DbContext
             entity.HasIndex(e => e.Username, "users_username_key").IsUnique();
 
             entity.Property(e => e.UserId)
-                .ValueGeneratedOnAdd()
-                    .HasColumnName("user_id");
+                .HasDefaultValueSql("nextval('users_user_id_seq1'::regclass)")
+                .HasColumnName("user_id");
             entity.Property(e => e.AccessRank).HasColumnName("access_rank");
             entity.Property(e => e.BirthDate).HasColumnName("birth_date");
             entity.Property(e => e.Email).HasColumnName("email");
             entity.Property(e => e.Gender).HasColumnName("gender");
-            entity.Property(e => e.JoinDate).HasColumnName("join_date")
-                .HasColumnType("timestamp without time zone");
+            entity.Property(e => e.JoinDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("join_date");
             entity.Property(e => e.LastOnline)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("last_online");
@@ -228,6 +215,7 @@ public partial class OtakutrackerContext : DbContext
                 .HasColumnName("status_id");
             entity.Property(e => e.StatusDescription).HasColumnName("status_description");
         });
+        modelBuilder.HasSequence("users_user_id_seq");
 
         OnModelCreatingPartial(modelBuilder);
     }

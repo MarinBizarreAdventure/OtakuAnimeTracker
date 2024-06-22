@@ -40,7 +40,7 @@ public class User
 
     public int? StatsEpisodes { get; set; }
 
-    public virtual ICollection<AnimeList>? AnimeLists { get; set; } = new List<AnimeList>();
+    public virtual ICollection<AnimeList> AnimeLists { get; set; } = new List<AnimeList>();
 
-    public virtual ICollection<Review>? Reviews { get; set; } = new List<Review>();
+    public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 }

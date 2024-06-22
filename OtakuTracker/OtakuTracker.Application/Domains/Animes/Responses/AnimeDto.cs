@@ -39,15 +39,9 @@ namespace OtakuTracker.Application.Animes.Responses;
         public int? Score3 { get; set; }
         public int? Score2 { get; set; }
         public int? Score1 { get; set; }
-        public List<GenreDto>? Genres { get; set; }
 
         public static AnimeDto FromAnime(Anime anime)
         {
-            var genreDtos = anime.Genres.Select(g => new GenreDto
-            {
-                GenreId = g.GenreId,
-                GenreName = g.GenreName
-            }).ToList();
             return new AnimeDto
             {
                 AnimeId = anime.AnimeId,
@@ -85,7 +79,6 @@ namespace OtakuTracker.Application.Animes.Responses;
                 Score3 = anime.Score3,
                 Score2 = anime.Score2,
                 Score1 = anime.Score1,
-                Genres = genreDtos
             };
         }
     }

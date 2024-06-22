@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OtakuTracker.Application.Abstractions;
-using OtakuTracker.Infrastructure.Models;
 using User = OtakuTracker.Domain.Models.User;
 
 namespace OtakuTracker.Infrastructure.Repositories;

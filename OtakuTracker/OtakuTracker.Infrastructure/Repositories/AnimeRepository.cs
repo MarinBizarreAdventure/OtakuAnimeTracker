@@ -1,4 +1,6 @@
-﻿using OtakuTracker.Application.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using OtakuTracker.Application.Abstractions;
+using OtakuTracker.Application.Animes.Responses;
 using Anime = OtakuTracker.Domain.Models.Anime;
 
 namespace OtakuTracker.Infrastructure.Repositories;
@@ -14,7 +16,6 @@ namespace OtakuTracker.Infrastructure.Repositories;
 
         public async Task<Anime> Create(Anime anime)
         {
-            
             _context.Animes.Add(anime);
             await _context.SaveChangesAsync();
             return anime;
@@ -27,8 +28,17 @@ namespace OtakuTracker.Infrastructure.Repositories;
         
         public async Task Update(Anime anime)
         {
-            _context.Animes.Update(anime);
-            await _context.SaveChangesAsync();
+            var existingAnime = await _context.Animes.FindAsync(anime.AnimeId);
+            if (existingAnime != null)
+            {
+                _context.Entry(existingAnime).State = EntityState.Detached; // Detach the existing entity
+                _context.Animes.Update(anime); // Attach the new entity
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception($"Anime with ID {anime.AnimeId} not found");
+            }
         }
 
         public async Task<bool> Delete(int animeId)
@@ -44,26 +54,33 @@ namespace OtakuTracker.Infrastructure.Repositories;
             return false;
         }
 
-        // public async Task<List<Anime>> GetAnimesByIds(List<int> animeIds)
-        // {
-        //     return await _context.Animes.Where(a => animeIds.Contains(a.Id)).ToListAsync();
-        // }
+        public async Task<List<AnimeSummaryDto>> GetTopAnimes(int page, int pageSize)
+        {
+            return await _context.Animes
+                .OrderByDescending(a => a.Rating)
+                .Select(a => new AnimeSummaryDto
+                {
+                    AnimeId = a.AnimeId.ToString(),
+                    ImageUrl = a.ImageUrl,
+                    Name = a.Name,
+                    Rating = a.Rating
+                })
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
 
-       
+        public async Task<List<AnimeSummaryDto>> GetUpcomingAnimes(int page, int pageSize)
+        {
+            // Implement logic to get upcoming animes
+            // Example:
+            return await Task.FromResult(new List<AnimeSummaryDto>());
+        }
 
-        // public async Task<List<Anime>> GetAll()
-        // {
-        //     return await _context.Animes.ToListAsync();
-        // }
-
-        // public async Task<List<Anime>> GetByGenreAsync(int genreId)
-        // {
-        //     return await _context.Animes.Where(a => a.Genres.Any(g => g.GenreId == genreId)).ToListAsync();
-        // }
-     
-
-        // public async Task<List<Anime>> SearchAsync(string keyword)
-        // {
-        //     return await _context.Animes.Where(a => a.Title.Contains(keyword) || a.Synopsis.Contains(keyword)).ToListAsync();
-        // }
+        public async Task<List<AnimeSummaryDto>> GetAiringAnimes(int page, int pageSize)
+        {
+            // Implement logic to get airing animes
+            // Example:
+            return await Task.FromResult(new List<AnimeSummaryDto>());
+        }
 }

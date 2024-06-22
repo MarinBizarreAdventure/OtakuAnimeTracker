@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using OtakuTracker.Application.Abstractions;
-using OtakuTracker.Domain.Models;
+using AnimeList = OtakuTracker.Domain.Models.AnimeList;
 
 namespace OtakuTracker.Infrastructure.Repositories;
 

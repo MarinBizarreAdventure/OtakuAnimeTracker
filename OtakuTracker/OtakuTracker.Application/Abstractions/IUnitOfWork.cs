@@ -7,12 +7,15 @@
 
         IReviewsRepository ReviewRepository { get; }
         IAnimeListRepository AnimeListRepository { get; }
+        IGenresRepository GenresRepository { get; }
+        IAnimeGenreRepository AnimeGenreRepository { get; }
 
 
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
         Task<int> CompleteAsync();
+       
     }
 
 }

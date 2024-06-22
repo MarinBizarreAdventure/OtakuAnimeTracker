@@ -39,5 +39,5 @@ public record UpdateAnime(
     int? Score3,
     int? Score2,
     int? Score1,
-    List<GenreDto>? Genres
+    List<int>? Genres
 ) : IRequest<AnimeDto>;

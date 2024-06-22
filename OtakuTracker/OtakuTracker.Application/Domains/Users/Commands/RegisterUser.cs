@@ -3,15 +3,16 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
+using OtakuTracker.Application.Users.Responses;
 using OtakuTracker.Domain.Models;
 using OtakuTracker.Domain.Models.Auth;
 
 namespace OtakuTracker.Application.Users.Commands;
 
 
-public record RegisterUser(string Username, string Email, string Password) : IRequest<bool>;
+public record RegisterUser(string Username, string Email, string Password) : IRequest<UserDto>;
 
-public class RegisterUserHandler : IRequestHandler<RegisterUser, bool>
+public class RegisterUserHandler : IRequestHandler<RegisterUser, UserDto>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<RegisterUserHandler> _logger;
@@ -24,10 +25,11 @@ public class RegisterUserHandler : IRequestHandler<RegisterUser, bool>
         _mapper = mapper;
     }
 
-    public async Task<bool> Handle(RegisterUser request, CancellationToken cancellationToken)
+    public async Task<UserDto> Handle(RegisterUser request, CancellationToken cancellationToken)
     {
         await _unitOfWork.BeginTransactionAsync();
-        
+        _logger.LogInformation("Register operation started");
+
         try
         {
             var user = new User
@@ -39,11 +41,12 @@ public class RegisterUserHandler : IRequestHandler<RegisterUser, bool>
                 LastOnline = DateTime.UtcNow
             };
 
-            await _unitOfWork.UserRepository.CreateUser(user);
-            
+            user = await _unitOfWork.UserRepository.CreateUser(user);
             await _unitOfWork.CommitTransactionAsync();
+
             _logger.LogInformation("User registered successfully");
-            return true;  // Returning true on success
+
+            return UserDto.FromUser(user);  // Returning UserDto on success
         }
         catch (Exception ex)
         {

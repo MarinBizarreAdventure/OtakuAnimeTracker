@@ -6,5 +6,5 @@ public class Genre
 
     public string? GenreName { get; set; }
 
-    public virtual ICollection<Anime> Animes { get; set; } = new List<Anime>();
+    public virtual ICollection<AnimeGenre> AnimeGenres { get; set; } = new List<AnimeGenre>();
 }

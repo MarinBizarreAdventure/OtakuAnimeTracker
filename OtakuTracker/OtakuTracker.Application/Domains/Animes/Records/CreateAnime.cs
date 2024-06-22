@@ -38,6 +38,5 @@ public record CreateAnime(
     int? Score4,
     int? Score3,
     int? Score2,
-    int? Score1,
-    List<GenreDto>? Genres
+    int? Score1
 ) : IRequest<AnimeDto>;

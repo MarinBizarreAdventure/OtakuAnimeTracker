@@ -1,4 +1,5 @@
-﻿using OtakuTracker.Domain.Models;
+﻿using OtakuTracker.Application.Animes.Responses;
+using OtakuTracker.Domain.Models;
 
 
 namespace OtakuTracker.Application.Abstractions
@@ -7,11 +8,11 @@ namespace OtakuTracker.Application.Abstractions
     {
         Task<Anime> Create(Anime anime);
         Task<Anime> GetById(int animeId);
-        // Task<List<Anime>> GetAnimesByIds(List<int> animeIds);
         Task Update(Anime anime);
         Task<bool> Delete(int animeId);
-        // Task<List<Anime>> GetAll();
-        // Task<List<Anime>> GetByGenre(int genreId);
-        // Task<List<Anime>> Search(string keyword);
+        
+        Task<List<AnimeSummaryDto>> GetTopAnimes(int page, int pageSize);
+        Task<List<AnimeSummaryDto>> GetUpcomingAnimes(int page, int pageSize);
+        Task<List<AnimeSummaryDto>> GetAiringAnimes(int page, int pageSize);
     }
 }

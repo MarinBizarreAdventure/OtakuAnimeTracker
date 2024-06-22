@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OtakuTracker.Application.Abstractions;
-using OtakuTracker.Infrastructure.Models;
 using Review = OtakuTracker.Domain.Models.Review;
 
 namespace OtakuTracker.Infrastructure.Repositories;
@@ -16,9 +15,17 @@ public class ReviewRepository : IReviewsRepository
 
     public async Task<Review> CreateReview(Review review)
     {
-        _context.Reviews.Add(review);
-        await _context.SaveChangesAsync();
-        return review;
+        var existingReview = await _context.Reviews
+            .FirstOrDefaultAsync(r => r.AnimeId == review.AnimeId && r.UserId == review.UserId);
+
+        if (existingReview == null)
+        {
+            _context.Reviews.Add(review);
+            await _context.SaveChangesAsync();
+            return review;
+        }
+
+        return existingReview;
     }
 
     public async Task<Review> GetReviewById(int reviewId)
