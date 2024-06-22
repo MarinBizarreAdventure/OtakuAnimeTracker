@@ -54,33 +54,77 @@ namespace OtakuTracker.Infrastructure.Repositories;
             return false;
         }
 
-        public async Task<List<AnimeSummaryDto>> GetTopAnimes(int page, int pageSize)
+        
+        public async Task<List<int>> GetPopularAnimeIds(int page, int pageSize, string sortOrder)
         {
-            return await _context.Animes
-                .OrderByDescending(a => a.Rating)
-                .Select(a => new AnimeSummaryDto
-                {
-                    AnimeId = a.AnimeId.ToString(),
-                    ImageUrl = a.ImageUrl,
-                    Name = a.Name,
-                    Rating = a.Rating
-                })
+            var query = _context.Animes.AsQueryable();
+            if (sortOrder.ToLower() == "asc")
+            {
+                query = query.OrderBy(a => a.Popularity);
+            }
+            else
+            {
+                query = query.OrderByDescending(a => a.Popularity);
+            }
+
+            return await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
+                .Select(a => a.AnimeId)
                 .ToListAsync();
         }
 
-        public async Task<List<AnimeSummaryDto>> GetUpcomingAnimes(int page, int pageSize)
+        public async Task<List<int>> GetRankedAnimeIds(int page, int pageSize, string sortOrder)
         {
-            // Implement logic to get upcoming animes
-            // Example:
-            return await Task.FromResult(new List<AnimeSummaryDto>());
+            var query = _context.Animes.AsQueryable();
+            if (sortOrder?.ToLower() == "asc")
+            {
+                query = query.OrderBy(a => a.Ranked);
+            }
+            else if (sortOrder?.ToLower() == "desc")
+            {
+                query = query.OrderByDescending(a => a.Ranked);
+            }
+
+            return await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(a => a.AnimeId)
+                .ToListAsync();
         }
 
-        public async Task<List<AnimeSummaryDto>> GetAiringAnimes(int page, int pageSize)
+        public async Task<AnimeSummaryDto> GetAnimeSummaryById(int animeId)
         {
-            // Implement logic to get airing animes
-            // Example:
-            return await Task.FromResult(new List<AnimeSummaryDto>());
+            var anime = await _context.Animes
+                .Where(a => a.AnimeId == animeId)
+                .Select(a => new AnimeSummaryDto
+                {
+                    AnimeId = a.AnimeId,
+                    Name = a.Name,
+                    JapaneseName = a.JapaneseName,
+                    ImageUrl = a.ImageUrl,
+                    Type = a.Type,
+                    Episodes = a.Episodes,
+                    Aired = a.Aired,
+                    Premiered = a.Premiered,
+                    Producers = a.Producers,
+                    Licensors = a.Licensors,
+                    Studios = a.Studios,
+                    Source = a.Source,
+                    Duration = a.Duration,
+                    Synopsis = a.Synopsis,
+                    Rating = a.Rating,
+                    Ranked = a.Ranked,
+                    Popularity = a.Popularity
+                })
+                .FirstOrDefaultAsync();
+
+            if (anime == null)
+            {
+                throw new Exception($"Anime with ID {animeId} not found");
+            }
+
+            return anime;
         }
+        
 }

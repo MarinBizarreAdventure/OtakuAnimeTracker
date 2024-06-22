@@ -11,8 +11,9 @@ namespace OtakuTracker.Application.Abstractions
         Task Update(Anime anime);
         Task<bool> Delete(int animeId);
         
-        Task<List<AnimeSummaryDto>> GetTopAnimes(int page, int pageSize);
-        Task<List<AnimeSummaryDto>> GetUpcomingAnimes(int page, int pageSize);
-        Task<List<AnimeSummaryDto>> GetAiringAnimes(int page, int pageSize);
+        Task<List<int>> GetPopularAnimeIds(int page, int pageSize, string sortOrder);
+        Task<List<int>> GetRankedAnimeIds(int page, int pageSize, string sortOrder);
+        Task<AnimeSummaryDto> GetAnimeSummaryById(int animeId);
+        
     }
 }

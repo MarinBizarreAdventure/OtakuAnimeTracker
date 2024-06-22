@@ -4,7 +4,7 @@ using OtakuTracker.Application.Abstractions;
 
 namespace OtakuTracker.Application.Domains.AnimeGenres.Queries;
 
-public record GetAllAnimeIdsByGenreId(int GenreId) : IRequest<List<int>>;
+public record GetAllAnimeIdsByGenreId(int GenreId, int Page, int PageSize) : IRequest<List<int>>;
 
 public class GetAllAnimeIdsByGenreIdHandler : IRequestHandler<GetAllAnimeIdsByGenreId, List<int>>
 {
@@ -23,7 +23,7 @@ public class GetAllAnimeIdsByGenreIdHandler : IRequestHandler<GetAllAnimeIdsByGe
         {
             _logger.LogInformation($"Getting all anime IDs for genre with ID {request.GenreId}");
 
-            var animeIds = await _unitOfWork.AnimeGenreRepository.GetAllAnimeIdsByGenreId(request.GenreId);
+            var animeIds = await _unitOfWork.AnimeGenreRepository.GetAllAnimeIdsByGenreId(request.GenreId, request.Page, request.PageSize);
 
             _logger.LogInformation($"Retrieved {animeIds.Count} anime IDs for genre with ID {request.GenreId}");
 
@@ -36,3 +36,4 @@ public class GetAllAnimeIdsByGenreIdHandler : IRequestHandler<GetAllAnimeIdsByGe
         }
     }
 }
+

@@ -12,5 +12,5 @@ public interface IAnimeGenreRepository
     Task<bool> Delete(int animeGenreId);
 
     Task<List<int>> GetAllGenreIdsByAnimeId(int animeId);
-    Task<List<int>> GetAllAnimeIdsByGenreId(int genreId);
+    Task<List<int>> GetAllAnimeIdsByGenreId(int genreId, int page, int pageSize);
 }

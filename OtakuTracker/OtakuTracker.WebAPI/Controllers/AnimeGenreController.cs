@@ -42,18 +42,5 @@ public class AnimeGenreController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("genre/{genreId}")]
-    [SwaggerOperation(Summary = "Gets all anime IDs associated with a genre")]
-    [SwaggerResponse(200, "Anime IDs retrieved successfully", typeof(List<int>))]
-    [SwaggerResponse(404, "Genre not found")]
-    public async Task<ActionResult<List<int>>> GetAllAnimeIdsByGenreId(int genreId)
-    {
-        var request = new GetAllAnimeIdsByGenreId(genreId);
-        var result = await _mediator.Send(request);
-        if (result == null)
-        {
-            return NotFound();
-        }
-        return Ok(result);
-    }
+    
 }

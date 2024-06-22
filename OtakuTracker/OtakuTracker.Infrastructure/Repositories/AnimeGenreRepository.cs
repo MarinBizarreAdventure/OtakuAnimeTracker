@@ -63,10 +63,12 @@ public class AnimeGenreRepository : IAnimeGenreRepository
             .ToListAsync();
     }
 
-    public async Task<List<int>> GetAllAnimeIdsByGenreId(int genreId)
+    public async Task<List<int>> GetAllAnimeIdsByGenreId(int genreId, int page, int pageSize)
     {
         return await _context.AnimeGenres
             .Where(ag => ag.GenreId == genreId)
+            .Skip(page * pageSize)
+            .Take(pageSize)
             .Select(ag => ag.AnimeId)
             .ToListAsync();
     }
