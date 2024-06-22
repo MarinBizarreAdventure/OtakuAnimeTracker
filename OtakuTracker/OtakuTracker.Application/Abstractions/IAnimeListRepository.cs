@@ -5,11 +5,14 @@ namespace OtakuTracker.Application.Abstractions
 {
     public interface IAnimeListRepository
     {
-        AnimeList CreateUserList(int userId);
-        AnimeList GetUserListByUserId(int userId);
-        AnimeList AddAnimeToUserList(int userId, int animeId, AnimeStatus status, decimal score);
-        void UpdateAnimeStatus(int userId, int animeId, AnimeStatus status);
-        void UpdateAnimeScore(int userId, int animeId, decimal score);
-        void RemoveAnimeFromUserList(int userId, int animeId);
+        Task<AnimeList> CreateUserList(AnimeList animeList);
+        Task<List<AnimeList>> GetUserListByUserId(string username);
+        Task<AnimeList> AddAnimeToUserList(AnimeList animeList);
+        Task RemoveAnimeFromUserList(string username, int animeId);
+
+        
+        // Task UpdateAnimeStatus(string username, int animeId, int watchingStatus);
+        // Task UpdateAnimeScore(string username, int animeId, int? score);
+        // Task UpdateWatchedEpisodes(string username, int animeId, int? watchedEpisodes);
     }
 }

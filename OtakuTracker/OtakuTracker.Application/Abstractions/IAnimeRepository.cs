@@ -1,19 +1,19 @@
-﻿using OtakuTracker.Domain.Models;
+﻿using OtakuTracker.Application.Animes.Responses;
+using OtakuTracker.Domain.Models;
 
 
 namespace OtakuTracker.Application.Abstractions
 {
     public interface IAnimeRepository
     {
-        Anime Create(Anime anime);
-        Anime GetById(int animeId);
-        List<Anime> GetAnimesByIds(List<int> animeIds);
-        void Update(Anime anime);
-        void Delete(int animeId);
-        List<Anime> GetAll();
-        List<Anime> GetByGenre(int genreId);
-        List<Anime> GetByTheme(int themeId);
-        List<Anime> GetByStatus(string status);
-        List<Anime> Search(string keyword);
+        Task<Anime> Create(Anime anime);
+        Task<Anime> GetById(int animeId);
+        Task Update(Anime anime);
+        Task<bool> Delete(int animeId);
+        
+        Task<List<int>> GetPopularAnimeIds(int page, int pageSize, string sortOrder);
+        Task<List<int>> GetRankedAnimeIds(int page, int pageSize, string sortOrder);
+        Task<AnimeSummaryDto> GetAnimeSummaryById(int animeId);
+        
     }
 }

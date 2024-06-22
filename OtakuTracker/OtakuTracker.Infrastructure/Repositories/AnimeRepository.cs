@@ -1,72 +1,130 @@
-﻿using OtakuTracker.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
 using OtakuTracker.Application.Abstractions;
+using OtakuTracker.Application.Animes.Responses;
+using Anime = OtakuTracker.Domain.Models.Anime;
 
 namespace OtakuTracker.Infrastructure.Repositories;
 
-public class AnimeRepository : IAnimeRepository
-{
-    private readonly AnimeDbContext _context;
+ public class AnimeRepository : IAnimeRepository {
+     
+        private readonly OtakutrackerContext _context;
 
-    public AnimeRepository(AnimeDbContext context)
-    {
-        _context = context;
-    }
-
-    public Anime Create(Anime anime)
-    {
-        _context.Animes.Add(anime);
-        _context.SaveChanges();
-        return anime;
-    }
-
-    public Anime GetById(int animeId)
-    {
-        return _context.Animes.Find(animeId);
-    }
-
-    public List<Anime> GetAnimesByIds(List<int> animeIds)
-    {
-        return _context.Animes.Where(a => animeIds.Contains(a.Id)).ToList();
-    }
-
-    public void Update(Anime anime)
-    {
-        _context.Animes.Update(anime);
-        _context.SaveChanges();
-    }
-
-    public void Delete(int animeId)
-    {
-        var anime = _context.Animes.Find(animeId);
-        if (anime != null)
+        public AnimeRepository(OtakutrackerContext context)
         {
-            _context.Animes.Remove(anime);
-            _context.SaveChanges();
+            _context = context;
         }
-    }
 
-    public List<Anime> GetAll()
-    {
-        return _context.Animes.ToList();
-    }
+        public async Task<Anime> Create(Anime anime)
+        {
+            _context.Animes.Add(anime);
+            await _context.SaveChangesAsync();
+            return anime;
+        }
 
-    public List<Anime> GetByGenre(int genreId)
-    {
-        return _context.Animes.Where(a => a.Genres.Any(g => g.GenreId == genreId)).ToList();
-    }
+        public async Task<Anime> GetById(int animeId)
+        {
+            return await _context.Animes.FindAsync(animeId);
+        }
+        
+        public async Task Update(Anime anime)
+        {
+            var existingAnime = await _context.Animes.FindAsync(anime.AnimeId);
+            if (existingAnime != null)
+            {
+                _context.Entry(existingAnime).State = EntityState.Detached; // Detach the existing entity
+                _context.Animes.Update(anime); // Attach the new entity
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception($"Anime with ID {anime.AnimeId} not found");
+            }
+        }
 
-    public List<Anime> GetByTheme(int themeId)
-    {
-        return _context.Animes.Where(a => a.Themes.Any(t => t.ThemeId == themeId)).ToList();
-    }
+        public async Task<bool> Delete(int animeId)
+        {
+            var anime = await _context.Animes.FindAsync(animeId);
+            
+            if (anime != null)
+            {
+                _context.Animes.Remove(anime);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
 
-    public List<Anime> GetByStatus(string status)
-    {
-        return _context.Animes.Where(a => a.Status == status).ToList();
-    }
+        
+        public async Task<List<int>> GetPopularAnimeIds(int page, int pageSize, string sortOrder)
+        {
+            var query = _context.Animes.AsQueryable();
+            if (sortOrder.ToLower() == "asc")
+            {
+                query = query.OrderBy(a => a.Popularity);
+            }
+            else
+            {
+                query = query.OrderByDescending(a => a.Popularity);
+            }
 
-    public List<Anime> Search(string keyword)
-    {
-        return _context.Animes.Where(a => a.Title.Contains(keyword) || a.Synopsis.Contains(keyword)).ToList();
-    }
+            return await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(a => a.AnimeId)
+                .ToListAsync();
+        }
+
+        public async Task<List<int>> GetRankedAnimeIds(int page, int pageSize, string sortOrder)
+        {
+            var query = _context.Animes.AsQueryable();
+            if (sortOrder?.ToLower() == "asc")
+            {
+                query = query.OrderBy(a => a.Ranked);
+            }
+            else if (sortOrder?.ToLower() == "desc")
+            {
+                query = query.OrderByDescending(a => a.Ranked);
+            }
+
+            return await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(a => a.AnimeId)
+                .ToListAsync();
+        }
+
+        public async Task<AnimeSummaryDto> GetAnimeSummaryById(int animeId)
+        {
+            var anime = await _context.Animes
+                .Where(a => a.AnimeId == animeId)
+                .Select(a => new AnimeSummaryDto
+                {
+                    AnimeId = a.AnimeId,
+                    Name = a.Name,
+                    JapaneseName = a.JapaneseName,
+                    ImageUrl = a.ImageUrl,
+                    Type = a.Type,
+                    Episodes = a.Episodes,
+                    Aired = a.Aired,
+                    Premiered = a.Premiered,
+                    Producers = a.Producers,
+                    Licensors = a.Licensors,
+                    Studios = a.Studios,
+                    Source = a.Source,
+                    Duration = a.Duration,
+                    Synopsis = a.Synopsis,
+                    Rating = a.Rating,
+                    Ranked = a.Ranked,
+                    Popularity = a.Popularity
+                })
+                .FirstOrDefaultAsync();
+
+            if (anime == null)
+            {
+                throw new Exception($"Anime with ID {animeId} not found");
+            }
+
+            return anime;
+        }
+        
 }

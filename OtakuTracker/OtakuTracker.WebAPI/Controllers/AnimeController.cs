@@ -6,10 +6,11 @@ using OtakuTracker.Application.Animes.Queries;
 using OtakuTracker.Application.Animes.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 using OtakuTracker.Application.Animes.Create;
+using OtakuTracker.Application.Animes.Records;
 
 namespace OtakuTracker.WebAPI.Controllers;
 
-[Authorize]
+// [Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class AnimeController : ControllerBase
@@ -28,7 +29,7 @@ public class AnimeController : ControllerBase
     public async Task<ActionResult<AnimeDto>> CreateAnime(CreateAnime command)
     {
         var result = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetAnimeById), new { id = result.Id }, result);
+        return CreatedAtAction(nameof(GetAnimeById), new { id = result.AnimeId }, result);
     }
 
     [HttpGet("{id}")]
@@ -50,11 +51,9 @@ public class AnimeController : ControllerBase
     [SwaggerOperation(Summary = "Updates an existing anime")]
     [SwaggerResponse(204, "Anime updated successfully")]
     [SwaggerResponse(404, "Anime not found")]
-    public async Task<IActionResult> UpdateAnime(int id, UpdateAnime command)
+    public async Task<IActionResult> UpdateAnime(UpdateAnime command)
     {
-        var result = await _mediator.Send(new UpdateAnime(id, command.Title, command.Synopsis, command.StartDate,
-            command.EndDate, command.Status, command.Type, command.Episodes, command.Duration, command.AgeRating,
-            command.PosterImageUrl, command.TrailerUrl, command.AverageRating, command.TotalRatings, command.Genres, command.Themes));
+        var result = await _mediator.Send(command);
 
         if (result == null)
         {
@@ -70,11 +69,12 @@ public class AnimeController : ControllerBase
     public async Task<IActionResult> DeleteAnime(int id)
     {
         var command = new DeleteAnime(id);
-        var result = await _mediator.Send(command);
-        if (!result)
-        {
-            return NotFound();
-        }
-        return NoContent();
+             var result = await _mediator.Send(command);
+             if (!result)
+             {
+                 return NotFound();
+             }
+             return NoContent();
+        
     }
 }

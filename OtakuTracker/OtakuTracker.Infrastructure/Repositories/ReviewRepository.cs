@@ -1,58 +1,69 @@
-﻿using OtakuTracker.Application.Abstractions;
-using OtakuTracker.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OtakuTracker.Application.Abstractions;
+using Review = OtakuTracker.Domain.Models.Review;
 
 namespace OtakuTracker.Infrastructure.Repositories;
 
 public class ReviewRepository : IReviewsRepository
 {
-    private readonly AnimeDbContext _context;
+    private readonly OtakutrackerContext _context;
 
-    public ReviewRepository(AnimeDbContext context)
+    public ReviewRepository(OtakutrackerContext context)
     {
         _context = context;
     }
 
-    public Review CreateReview(Review review)
+    public async Task<Review> CreateReview(Review review)
     {
-        _context.Reviews.Add(review);
-        _context.SaveChanges();
-        return review;
+        var existingReview = await _context.Reviews
+            .FirstOrDefaultAsync(r => r.AnimeId == review.AnimeId && r.UserId == review.UserId);
+
+        if (existingReview == null)
+        {
+            _context.Reviews.Add(review);
+            await _context.SaveChangesAsync();
+            return review;
+        }
+
+        return existingReview;
     }
 
-    public Review GetReviewById(int reviewId)
+    public async Task<Review> GetReviewById(int reviewId)
     {
-        return _context.Reviews.Find(reviewId);
+        return await _context.Reviews.FindAsync(reviewId);
     }
 
-    public List<Review> GetReviewsByUserId(int userId)
+    public async Task<List<Review>> GetReviewsByUserId(int userId)
     {
-        return _context.Reviews.Where(r => r.UserId == userId).ToList();
+        return await _context.Reviews.Where(r => r.UserId == userId).ToListAsync();
     }
 
-    public List<Review> GetReviewsByAnimeId(int animeId)
+    public async Task<List<Review>> GetReviewsByAnimeId(int animeId)
     {
-        return _context.Reviews.Where(r => r.AnimeId == animeId).ToList();
+        return await _context.Reviews.Where(r => r.AnimeId == animeId).ToListAsync();
     }
 
-    public List<Review> GetReviewsByRating(decimal rating)
+    public async Task<List<Review>> GetReviewsByRating(decimal rating)
     {
-        return _context.Reviews.Where(r => r.Rating == rating).ToList();
+        return await _context.Reviews.Where(r => r.Rating == rating).ToListAsync();
     }
 
-    public void UpdateReview(Review review)
+    public async Task UpdateReview(Review review)
     {
         _context.Reviews.Update(review);
-        _context.SaveChanges();
-        //return review;
+        await _context.SaveChangesAsync();
     }
 
-    public void DeleteReview(int reviewId)
+    public async Task<bool> DeleteReview(int reviewId)
     {
-        var review = _context.Reviews.Find(reviewId);
+        var review = await _context.Reviews.FindAsync(reviewId);
         if (review != null)
         {
             _context.Reviews.Remove(review);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            return true;
         }
+
+        return false;
     }
 }

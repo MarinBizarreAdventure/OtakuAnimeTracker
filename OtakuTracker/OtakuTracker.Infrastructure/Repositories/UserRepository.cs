@@ -1,51 +1,57 @@
-﻿using OtakuTracker.Application.Abstractions;
-using OtakuTracker.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OtakuTracker.Application.Abstractions;
+using User = OtakuTracker.Domain.Models.User;
 
 namespace OtakuTracker.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly AnimeDbContext _context;
+    private readonly OtakutrackerContext _context;
 
-    public UserRepository(AnimeDbContext context)
+    public UserRepository(OtakutrackerContext context)
     {
         _context = context;
     }
 
-    public User? CreateUser(User? user)
+    public async Task<User?> CreateUser(User? user)
     {
-        _context.users.Add(user);
-        _context.SaveChanges();
+        user.LastOnline = user.LastOnline?.ToUniversalTime();
+
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
         return user;
     }
 
-    public User? GetUserById(int userId)
+    public async Task<User?> GetUserById(int userId)
     {
-        return _context.users.Find(userId);
+        return await _context.Users.FindAsync(userId);
     }
 
-    public User? GetUserByUsername(string username)
+    public async Task<User?> GetUserByUsername(string username)
     {
-        return _context.users.FirstOrDefault(u => u != null && u.username == username);
+        return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
     }
 
-    public List<User?> GetAllUsers()
+    public async Task<List<User>> GetAllUsers()
     {
-        return _context.users.ToList();
+        return await _context.Users.ToListAsync();
     }
 
-    public User? UpdateUser(User? user)
+    public async Task<User?> UpdateUser(User? user)
     {
-        _context.users.Update(user);
-        _context.SaveChanges();
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
         return user;
     }
 
-    public void DeleteUser(int userId)
+    public async Task<bool> DeleteUser(int userId)
     {
-        var user = _context.users.Find(userId);
-        if (user == null) return;
-        _context.users.Remove(user);
-        _context.SaveChanges();
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null)
+            return false;
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        return true;
     }
 }
