@@ -18,6 +18,20 @@ public class Startup(IConfiguration configuration)
 
     public void ConfigureServices(IServiceCollection services)
     {
+
+        
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+        });
+
+     
         var applicationAssembly = Assembly.Load("OtakuTracker.Application");
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
 

@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OtakuTracker.Application.Domains.AnimeGenres.Queries;
 using OtakuTracker.Application.Domains.AnimeGenres.Responses;
+using OtakuTracker.Application.Genres.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace OtakuTracker.WebAPI.Controllers;
@@ -40,6 +41,17 @@ public class AnimeGenreController : ControllerBase
             return NotFound();
         }
         return Ok(result);
+    }
+    
+    [HttpGet("genre/count/{genreId}")]
+    [SwaggerOperation(Summary = "Gets the number of animes associated with a genre")]
+    [SwaggerResponse(200, "Number of animes retrieved successfully")]
+    [SwaggerResponse(404, "Genre not found")]
+    public async Task<IActionResult> GetNumberOfAnimesByGenreId(int genreId)
+    {
+        var query = new GetNumberOfAnimesByGenreIdQuery(genreId);
+        var count = await _mediator.Send(query);
+        return Ok(count);
     }
 
     

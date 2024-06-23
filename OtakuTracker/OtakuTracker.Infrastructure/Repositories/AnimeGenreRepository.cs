@@ -95,4 +95,13 @@ public class AnimeGenreRepository : IAnimeGenreRepository
             await _context.SaveChangesAsync();
         }
     }
+    
+    public async Task<int> GetNumberOfAnimesByGenreId(int genreId)
+    {
+        return await _context.AnimeGenres
+            .Where(ag => ag.GenreId == genreId)
+            .CountAsync();
+    }
+    
+    
 }

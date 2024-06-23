@@ -127,4 +127,10 @@ namespace OtakuTracker.Infrastructure.Repositories;
             return anime;
         }
         
+        public async Task<int> CountAnimes()
+        {
+            return await _context.Animes.CountAsync();
+        }
+
+        
 }

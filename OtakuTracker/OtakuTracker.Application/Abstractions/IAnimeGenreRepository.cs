@@ -13,4 +13,6 @@ public interface IAnimeGenreRepository
 
     Task<List<int>> GetAllGenreIdsByAnimeId(int animeId);
     Task<List<int>> GetAllAnimeIdsByGenreId(int genreId, int page, int pageSize);
+
+    Task<int> GetNumberOfAnimesByGenreId(int genreId);
 }

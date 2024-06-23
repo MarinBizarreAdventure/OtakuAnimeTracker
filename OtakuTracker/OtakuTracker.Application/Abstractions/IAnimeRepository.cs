@@ -14,6 +14,6 @@ namespace OtakuTracker.Application.Abstractions
         Task<List<int>> GetPopularAnimeIds(int page, int pageSize, string sortOrder);
         Task<List<int>> GetRankedAnimeIds(int page, int pageSize, string sortOrder);
         Task<AnimeSummaryDto> GetAnimeSummaryById(int animeId);
-        
+        Task<int> CountAnimes();
     }
 }

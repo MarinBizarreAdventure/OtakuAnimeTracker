@@ -10,17 +10,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff2e2cbc-9273-42a7-9a3a-1475827825ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IElasticAnimeRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/ElasticSearch/Queries/SearchAnime.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/ElasticAnimeRepository.cs" afterDir="false" />
+    <list default="true" id="ff2e2cbc-9273-42a7-9a3a-1475827825ea" name="Changes" comment="Elastic Search">
+      <change afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeGenres/Queries/GetNumberOfAnimesByGenreId.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Animes/Queries/CountAnimesQuery.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.OtakuTracker/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.OtakuTracker/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IUnitOfWork.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IUnitOfWork.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/RegisterUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/Users/Commands/RegisterUser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/OtakuTracker.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/OtakuTracker.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Infrastructure/OtakuTracker.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/OtakuTracker.Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Infrastructure/UnitOfWork.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/UnitOfWork.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeGenreRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeGenreRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Infrastructure/OtakutrackerContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/OtakutrackerContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeGenreRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeGenreRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OtakuTracker.WebAPI/Controllers/AnimeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/Controllers/AnimeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.WebAPI/Controllers/AnimeGenreController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/Controllers/AnimeGenreController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtakuTracker.WebAPI/OtakuTracker.WebAPI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/OtakuTracker.WebAPI.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OtakuTracker.WebAPI/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/Startup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OtakuTracker.WebAPI/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/appsettings.json" afterDir="false" />
     </list>
@@ -54,11 +55,9 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeRepository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.Application/Domains/Animes/Commands/CreateAnime.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.Application/Domains/Animes/Records/CreateAnime.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.Application/Domains/Users/Commands/RegisterUser.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.Application/Domains/Users/Commands/RegisterUser.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/OtakuTracker.Console/Program.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.Domain/Models/Anime.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.Infrastructure/Repositories/AnimeRepository.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeRepository.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
@@ -183,7 +182,7 @@
       <workItem from="1718812903799" duration="38296000" />
       <workItem from="1718966366697" duration="37868000" />
       <workItem from="1719053185565" duration="31811000" />
-      <workItem from="1719131894868" duration="20906000" />
+      <workItem from="1719131894868" duration="23265000" />
     </task>
     <task id="LOCAL-00001" summary="removed unused code">
       <option name="closed" value="true" />
@@ -265,7 +264,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719101204302</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Elastic Search">
+      <option name="closed" value="true" />
+      <created>1719182351978</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1719182351978</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -298,6 +305,7 @@
     <MESSAGE value="Global exception handling &amp; Error handling" />
     <MESSAGE value="Model validation on server side." />
     <MESSAGE value="Adding Data Anotations to all records" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding Data Anotations to all records" />
+    <MESSAGE value="Elastic Search" />
+    <option name="LAST_COMMIT_MESSAGE" value="Elastic Search" />
   </component>
 </project>

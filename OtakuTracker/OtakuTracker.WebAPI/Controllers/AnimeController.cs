@@ -96,4 +96,12 @@ public class AnimeController : ControllerBase
 
         return Ok(result);
     }
+    
+    
+    [HttpGet("count")]
+    public async Task<ActionResult<int>> CountAnimes()
+    {
+        var count = await _mediator.Send(new CountAnimesQuery());
+        return Ok(count);
+    }
 }
