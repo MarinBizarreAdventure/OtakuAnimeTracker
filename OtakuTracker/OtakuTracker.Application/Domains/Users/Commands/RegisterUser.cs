@@ -23,6 +23,7 @@ public record RegisterUser(
     [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
     string Password
 ) : IRequest<UserDto>;
+
 public class RegisterUserHandler : IRequestHandler<RegisterUser, UserDto>
 {
     private readonly IUnitOfWork _unitOfWork;

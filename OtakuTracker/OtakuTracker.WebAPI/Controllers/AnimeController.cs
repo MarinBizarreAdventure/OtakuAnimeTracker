@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Text.Json.Nodes;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OtakuTracker.Application.Animes.Commands;
@@ -7,6 +8,7 @@ using OtakuTracker.Application.Animes.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 using OtakuTracker.Application.Animes.Create;
 using OtakuTracker.Application.Animes.Records;
+using OtakuTracker.Application.Domains.ElasticSearch.Queries;
 
 namespace OtakuTracker.WebAPI.Controllers;
 
@@ -76,5 +78,22 @@ public class AnimeController : ControllerBase
              }
              return NoContent();
         
+    }
+    
+    
+    [HttpGet("search")]
+    [SwaggerOperation(Summary = "Searches anime by query")]
+    [SwaggerResponse(200, "Anime search results retrieved successfully", typeof(string))]
+    public async Task<ActionResult<JsonObject>> SearchAnime([FromQuery] string query, [FromQuery] int from, [FromQuery] int size)
+    {
+        var request = new SearchAnimeQuery(query, from, size);
+        var result = await _mediator.Send(request);
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
     }
 }

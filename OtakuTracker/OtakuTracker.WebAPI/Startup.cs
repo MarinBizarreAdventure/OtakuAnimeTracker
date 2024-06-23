@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Nest;
 using OtakuTracker.Application.Abstractions;
 using OtakuTracker.Application.Profiles;
 using OtakuTracker.Application.Services;
@@ -53,6 +54,14 @@ public class Startup(IConfiguration configuration)
 
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        
+        var elasticsearchUrl = Configuration["Elasticsearch:Url"];
+        var settings = new ConnectionSettings(new Uri(elasticsearchUrl));
+        var client = new ElasticClient(settings);
+    
+        services.AddSingleton<IElasticClient>(client);
+
+        services.AddScoped<IElasticAnimeRepository, ElasticAnimeRepository>();
 
         services.AddSwaggerGen();
 

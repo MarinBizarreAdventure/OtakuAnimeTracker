@@ -15,8 +15,9 @@ namespace OtakuTracker.Infrastructure
         public IAnimeListRepository AnimeListRepository { get; private set; }
         public IGenresRepository GenresRepository { get; private set; }
         public IAnimeGenreRepository AnimeGenreRepository { get; private set; }
-
-        public UnitOfWork(OtakutrackerContext context)
+        
+        public IElasticAnimeRepository ElasticAnimeRepository { get; private set; }
+        public UnitOfWork(OtakutrackerContext context, IElasticAnimeRepository elasticAnimeRepository)
         {
             _context = context;
             AnimeRepository = new AnimeRepository(_context);
@@ -25,6 +26,9 @@ namespace OtakuTracker.Infrastructure
             AnimeListRepository = new AnimeListRepository(_context);
             GenresRepository = new GenreRepository(_context);
             AnimeGenreRepository = new AnimeGenreRepository(_context);
+            
+            ElasticAnimeRepository = elasticAnimeRepository;
+
         }
 
         

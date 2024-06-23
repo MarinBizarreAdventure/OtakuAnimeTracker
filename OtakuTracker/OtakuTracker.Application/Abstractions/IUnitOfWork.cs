@@ -9,6 +9,7 @@
         IAnimeListRepository AnimeListRepository { get; }
         IGenresRepository GenresRepository { get; }
         IAnimeGenreRepository AnimeGenreRepository { get; }
+        IElasticAnimeRepository ElasticAnimeRepository { get; }
 
 
         Task BeginTransactionAsync();
