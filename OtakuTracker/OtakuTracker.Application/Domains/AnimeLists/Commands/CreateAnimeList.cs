@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -8,9 +9,41 @@ using OtakuTracker.Domain.Models;
 namespace OtakuTracker.Application.AnimeLists.Commands;
 
 
-public record CreateAnimeList(string Username, int AnimeId, int? Score, int? WatchingStatus, int? WatchedEpisodes,
-    DateOnly? MyStartDate, DateOnly? MyFinishDate, int? MyRewatching, int? MyRewatchingEp, DateTime? MyLastUpdated, 
-    string? MyTags) : IRequest<AnimeListDto>;
+public record CreateAnimeList(
+    [Required(ErrorMessage = "Username is required.")]
+    string Username,
+    
+    [Range(1, int.MaxValue, ErrorMessage = "AnimeId must be a positive integer.")]
+    int AnimeId,
+    
+    [Range(0, 10, ErrorMessage = "Score must be between 0 and 10.")]
+    int? Score,
+    
+    [Range(0, int.MaxValue, ErrorMessage = "WatchingStatus must be a non-negative integer.")]
+    int? WatchingStatus,
+    
+    [Range(0, int.MaxValue, ErrorMessage = "WatchedEpisodes must be a non-negative integer.")]
+    int? WatchedEpisodes,
+    
+    [DataType(DataType.Date, ErrorMessage = "MyStartDate must be a valid date.")]
+    DateOnly? MyStartDate,
+    
+    [DataType(DataType.Date, ErrorMessage = "MyFinishDate must be a valid date.")]
+    DateOnly? MyFinishDate,
+    
+    [Range(0, int.MaxValue, ErrorMessage = "MyRewatching must be a non-negative integer.")]
+    int? MyRewatching,
+    
+    [Range(0, int.MaxValue, ErrorMessage = "MyRewatchingEp must be a non-negative integer.")]
+    int? MyRewatchingEp,
+    
+    [DataType(DataType.DateTime, ErrorMessage = "MyLastUpdated must be a valid date and time.")]
+    DateTime? MyLastUpdated,
+    
+    [StringLength(100, ErrorMessage = "MyTags must be at most 100 characters long.")]
+    string? MyTags
+) : IRequest<AnimeListDto>;
+
 
 public class CreateAnimeListHandler : IRequestHandler<CreateAnimeList, AnimeListDto>
 {

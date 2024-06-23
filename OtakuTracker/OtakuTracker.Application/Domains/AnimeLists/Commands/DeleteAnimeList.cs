@@ -1,8 +1,15 @@
+using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
 
-public record RemoveAnimeFromUserList(string Username, int AnimeId) : IRequest<bool>;
+public record RemoveAnimeFromUserList(
+    [Required(ErrorMessage = "Username is required.")]
+    string Username,
+    
+    [Range(1, int.MaxValue, ErrorMessage = "AnimeId must be a positive integer.")]
+    int AnimeId
+) : IRequest<bool>;
 
 public class RemoveAnimeFromUserListHandler : IRequestHandler<RemoveAnimeFromUserList, bool>
 {

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -5,8 +6,13 @@ using OtakuTracker.Application.Abstractions;
 using OtakuTracker.Application.Domains.AnimeGenres.Responses;
 using OtakuTracker.Domain.Models;
 
-public record CreateAnimeGenres(int AnimeId, List<int> GenreIds) : IRequest<List<AnimeGenreDto>>;
-
+public record CreateAnimeGenres(
+    [Range(1, int.MaxValue, ErrorMessage = "AnimeId must be a positive integer.")]
+    int AnimeId,
+    
+    [MinLength(1, ErrorMessage = "At least one GenreId must be specified.")]
+    List<int> GenreIds
+) : IRequest<List<AnimeGenreDto>>;
 public class CreateAnimeGenresHandler : IRequestHandler<CreateAnimeGenres, List<AnimeGenreDto>>
 {
     private readonly IUnitOfWork _unitOfWork;

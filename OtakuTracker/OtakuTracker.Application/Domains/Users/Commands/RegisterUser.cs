@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Json;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -10,8 +11,18 @@ using OtakuTracker.Domain.Models.Auth;
 namespace OtakuTracker.Application.Users.Commands;
 
 
-public record RegisterUser(string Username, string Email, string Password) : IRequest<UserDto>;
-
+public record RegisterUser(
+    [Required(ErrorMessage = "Username is required.")]
+    string Username,
+    
+    [Required(ErrorMessage = "Email is required.")]
+    [EmailAddress(ErrorMessage = "Invalid email format.")]
+    string Email,
+    
+    [Required(ErrorMessage = "Password is required.")]
+    [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
+    string Password
+) : IRequest<UserDto>;
 public class RegisterUserHandler : IRequestHandler<RegisterUser, UserDto>
 {
     private readonly IUnitOfWork _unitOfWork;

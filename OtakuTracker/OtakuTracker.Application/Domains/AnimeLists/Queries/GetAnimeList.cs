@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -6,8 +7,10 @@ using OtakuTracker.Application.AnimeLists.Responses;
 
 namespace OtakuTracker.Application.AnimeLists.Queries;
 
-public record GetAnimeList(string Username) : IRequest<List<AnimeListDto>>;
-
+public record GetAnimeList(
+    [Required(ErrorMessage = "Username is required.")]
+    string Username
+) : IRequest<List<AnimeListDto>>;
 public class GetAnimeListHandler : IRequestHandler<GetAnimeList, List<AnimeListDto>>
 {
     

@@ -1,11 +1,14 @@
-﻿using MediatR;
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
 
 namespace OtakuTracker.Application.Users.Commands
 {
-    public record DeleteUser(int UserId) : IRequest<bool>;
-
+    public record DeleteUser(
+        [Range(1, int.MaxValue, ErrorMessage = "UserId must be a positive integer.")]
+        int UserId
+    ) : IRequest<bool>;
     public class DeleteUserHandler : IRequestHandler<DeleteUser, bool>
     {
         private readonly IUnitOfWork _unitOfWork;

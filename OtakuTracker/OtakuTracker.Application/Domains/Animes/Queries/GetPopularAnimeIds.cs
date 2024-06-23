@@ -1,8 +1,19 @@
+using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
 
-public record GetPopularAnimeIds(int Page, int PageSize, string SortOrder) : IRequest<List<int>>;
+public record GetPopularAnimeIds(
+    [Range(1, int.MaxValue, ErrorMessage = "Page must be a positive integer.")]
+    int Page,
+    
+    [Range(1, 100, ErrorMessage = "PageSize must be between 1 and 100.")]
+    int PageSize,
+    
+    [RegularExpression("^(asc|desc)$", ErrorMessage = "SortOrder must be 'asc' or 'desc'.")]
+    string SortOrder
+) : IRequest<List<int>>;
+
 
 public class GetPopularAnimeIdsHandler : IRequestHandler<GetPopularAnimeIds, List<int>>
 {

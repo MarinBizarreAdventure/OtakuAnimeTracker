@@ -18,6 +18,7 @@ namespace OtakuTracker.Application.Profiles
     {
         public MappingProfile()
         {
+            
             CreateMap<CreateAnime, Anime>();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<UpdateAnime, Anime>();

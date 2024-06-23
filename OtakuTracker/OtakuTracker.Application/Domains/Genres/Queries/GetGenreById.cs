@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -7,8 +8,10 @@ using OtakuTracker.Application.Genres.Responses;
 
 namespace OtakuTracker.Application.Genres.Queries;
 
-public record GetGenreById(int GenreId) : IRequest<GenreDto>;
-
+public record GetGenreById(
+    [Range(1, int.MaxValue, ErrorMessage = "GenreId must be a positive integer.")]
+    int GenreId
+) : IRequest<GenreDto>;
 public class GetGenreByIdHandler : IRequestHandler<GetGenreById, GenreDto>
 {
     private readonly IUnitOfWork _unitOfWork;

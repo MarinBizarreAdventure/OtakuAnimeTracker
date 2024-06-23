@@ -1,11 +1,14 @@
+using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
 
 namespace OtakuTracker.Application.Domains.AnimeGenres.Queries;
 
-public record GetAllGenreIdsByAnimeId(int AnimeId) : IRequest<List<int>>;
-
+public record GetAllGenreIdsByAnimeId(
+    [Range(1, int.MaxValue, ErrorMessage = "AnimeId must be a positive integer.")]
+    int AnimeId
+) : IRequest<List<int>>;
 public class GetAllGenreIdsByAnimeIdHandler : IRequestHandler<GetAllGenreIdsByAnimeId, List<int>>
 {
     private readonly IUnitOfWork _unitOfWork;

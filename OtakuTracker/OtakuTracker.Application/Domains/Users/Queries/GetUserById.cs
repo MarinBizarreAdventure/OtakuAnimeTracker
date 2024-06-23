@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
@@ -7,8 +8,10 @@ using OtakuTracker.Domain.Models;
 
 namespace OtakuTracker.Application.Users.Queries;
 
-public record GetUserById(int UserId) : IRequest<UserDto>;
-
+public record GetUserById(
+    [Range(1, int.MaxValue, ErrorMessage = "UserId must be a positive integer.")]
+    int UserId
+) : IRequest<UserDto>;
 public class GetUserByIdHandler : IRequestHandler<GetUserById, UserDto>
 {
     private readonly IUnitOfWork _unitOfWork;

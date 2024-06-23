@@ -1,12 +1,15 @@
-﻿using MediatR;
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
 using OtakuTracker.Application.Reviews.Responses;
 
 namespace OtakuTracker.Application.Reviews.Queries
 {
-    public record GetReviewById(int ReviewId) : IRequest<ReviewDto>;
-
+    public record GetReviewById(
+        [Range(1, int.MaxValue, ErrorMessage = "ReviewId must be a positive integer.")]
+        int ReviewId
+    ) : IRequest<ReviewDto>;
 
     public class GetReviewByIdHandler : IRequestHandler<GetReviewById, ReviewDto>
     {

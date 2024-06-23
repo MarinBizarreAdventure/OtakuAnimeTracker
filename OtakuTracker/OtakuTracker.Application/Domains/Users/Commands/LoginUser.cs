@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Json;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -8,8 +9,13 @@ using OtakuTracker.Domain.Models.Auth;
 
 namespace OtakuTracker.Application.Users.Commands;
 
-public record LoginUser(string Username, string Password) : IRequest<UserDto>;
-
+public record LoginUser(
+    [Required(ErrorMessage = "Username is required.")]
+    string Username,
+    
+    [Required(ErrorMessage = "Password is required.")]
+    string Password
+) : IRequest<UserDto>;
 public class LoginUserHandler : IRequestHandler<LoginUser, UserDto>
 {
     private readonly IUnitOfWork _unitOfWork;

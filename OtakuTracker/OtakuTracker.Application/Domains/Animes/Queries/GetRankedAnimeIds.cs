@@ -1,11 +1,18 @@
+using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
 
 namespace OtakuTracker.Application.Animes.Queries;
 
-public record GetRankedAnimeIds(int Page, int PageSize, string SortOrder) : IRequest<List<int>>;
-
+public record GetRankedAnimeIds(
+    [Range(1, int.MaxValue, ErrorMessage = "Page must be a positive integer.")]
+    int Page,
+    
+    [Range(1, 100, ErrorMessage = "PageSize must be between 1 and 100.")]
+    int PageSize,
+    string SortOrder
+) : IRequest<List<int>>;
 public class GetRankedAnimeIdsHandler : IRequestHandler<GetRankedAnimeIds, List<int>>
 {
     private readonly IUnitOfWork _unitOfWork;

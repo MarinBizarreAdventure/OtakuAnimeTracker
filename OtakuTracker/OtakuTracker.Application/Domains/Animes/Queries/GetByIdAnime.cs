@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
@@ -6,7 +7,10 @@ using OtakuTracker.Application.Animes.Responses;
 
 namespace OtakuTracker.Application.Animes.Queries;
 
-    public record GetByIdAnime(int AnimeId) : IRequest<AnimeDto>;
+public record GetByIdAnime(
+    [Range(1, int.MaxValue, ErrorMessage = "AnimeId must be a positive integer.")]
+    int AnimeId
+) : IRequest<AnimeDto>;
     public class GetByIdAnimeHandler : IRequestHandler<GetByIdAnime, AnimeDto>
     {
         private readonly IUnitOfWork _unitOfWork;

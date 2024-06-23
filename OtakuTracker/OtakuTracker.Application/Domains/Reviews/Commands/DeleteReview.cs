@@ -1,12 +1,16 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
 
 namespace OtakuTracker.Application.Reviews.Commands
 {
-    public record DeleteReview(int ReviewId) : IRequest<bool>;
-
+    public record DeleteReview(
+        [Range(1, int.MaxValue, ErrorMessage = "ReviewId must be a positive integer.")]
+        int ReviewId
+    ) : IRequest<bool>;
+    
     public class DeleteReviewHandler : IRequestHandler<DeleteReview, bool>
     {
         private readonly IUnitOfWork _unitOfWork;

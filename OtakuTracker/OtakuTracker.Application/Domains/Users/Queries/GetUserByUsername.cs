@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OtakuTracker.Application.Abstractions;
@@ -6,8 +7,10 @@ using OtakuTracker.Application.Users.Responses;
 
 namespace OtakuTracker.Application.Users.Queries
 {
-    public record GetUserByUsername(string Username) : IRequest<UserDto>;
-    public class GetUserByUsernameHandler : IRequestHandler<GetUserByUsername, UserDto>
+    public record GetUserByUsername(
+        [Required(ErrorMessage = "Username is required.")]
+        string Username
+    ) : IRequest<UserDto>;    public class GetUserByUsernameHandler : IRequestHandler<GetUserByUsername, UserDto>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetUserByUsernameHandler> _logger;
