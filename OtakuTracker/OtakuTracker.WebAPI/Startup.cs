@@ -84,6 +84,8 @@ public class Startup(IConfiguration configuration)
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        
+        
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -93,6 +95,8 @@ public class Startup(IConfiguration configuration)
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
         }
+
+        app.UseCors("AllowAll");
 
         app.UseHttpsRedirection();
         app.UseRouting();
