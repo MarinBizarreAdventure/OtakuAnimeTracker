@@ -6,6 +6,8 @@ public class AnimeListDto
 {
         public string Username { get; set; } = null!;
         public int AnimeId { get; set; }
+        public string? Title { get; set; }
+        public string? ImageUrl { get; set; }
         public int? Score { get; set; }
         public int? WatchingStatus { get; set; }
         public int? WatchedEpisodes { get; set; }
@@ -22,6 +24,7 @@ public class AnimeListDto
                 {
                         Username = animeList.Username,
                         AnimeId = animeList.AnimeId,
+                      
                         Score = animeList.Score,
                         WatchingStatus = animeList.WatchingStatus,
                         WatchedEpisodes = animeList.WatchedEpisodes,
@@ -31,6 +34,7 @@ public class AnimeListDto
                         MyRewatchingEp = animeList.MyRewatchingEp,
                         MyLastUpdated = animeList.MyLastUpdated,
                         MyTags = animeList.MyTags
+                        
                 };
         }
 }

@@ -1,4 +1,5 @@
-﻿using OtakuTracker.Domain.Enumerations;
+﻿using OtakuTracker.Application.AnimeLists.Responses;
+using OtakuTracker.Domain.Enumerations;
 using OtakuTracker.Domain.Models;
 
 namespace OtakuTracker.Application.Abstractions
@@ -6,7 +7,7 @@ namespace OtakuTracker.Application.Abstractions
     public interface IAnimeListRepository
     {
         Task<AnimeList> CreateUserList(AnimeList animeList);
-        Task<List<AnimeList>> GetUserListByUserId(string username);
+        Task<List<AnimeListDto>> GetUserListByUserId(string username);
         Task<AnimeList> AddAnimeToUserList(AnimeList animeList);
         Task RemoveAnimeFromUserList(string username, int animeId);
 

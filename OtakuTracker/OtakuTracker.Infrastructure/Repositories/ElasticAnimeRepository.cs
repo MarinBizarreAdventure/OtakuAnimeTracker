@@ -23,7 +23,6 @@ public class ElasticAnimeRepository : IElasticAnimeRepository
     {
         try
         {
-            // Define the raw JSON query
             var rawQuery = new
             {
                 from,
@@ -39,20 +38,16 @@ public class ElasticAnimeRepository : IElasticAnimeRepository
                 }
             };
 
-            // Serialize the raw query to JSON string
             var rawQueryJson = JsonSerializer.Serialize(rawQuery);
 
-            // Send the raw JSON query using the low-level client
-            var response = await _elasticClient.LowLevel.SearchAsync<StringResponse>("anime", PostData.String(rawQueryJson));
-
-            // Check if the response is successful
+            var response =
+                await _elasticClient.LowLevel.SearchAsync<StringResponse>("anime", PostData.String(rawQueryJson));
             if (!response.Success)
             {
                 _logger.LogError("Elasticsearch search error: {Reason}", response.DebugInformation);
                 return null;
             }
 
-            // Parse the raw JSON response into a JsonObject
             var jsonResponse = JsonNode.Parse(response.Body) as JsonObject;
 
             return jsonResponse;
@@ -63,4 +58,34 @@ public class ElasticAnimeRepository : IElasticAnimeRepository
             throw;
         }
     }
+
+
+    // public static async Task SendRequestToElasticsearch(string jsonRequest)
+    // {
+    //     // Your Elasticsearch URL
+    //     string elasticSearchUrl = "http://your-elasticsearch-url:9200/your-index/_search";
+    //
+    //     using (var client = new HttpClient())
+    //     {
+    //         // Prepare HTTP request content
+    //         var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+    //
+    //         // Send the POST request to Elasticsearch
+    //         var response = await client.PostAsync(elasticSearchUrl, content);
+    //
+    //         // Check if the request was successful
+    //         if (response.IsSuccessStatusCode)
+    //         {
+    //             // Handle successful response
+    //             var responseContent = await response.Content.ReadAsStringAsync();
+    //             Console.WriteLine("Elasticsearch response:");
+    //             Console.WriteLine(responseContent);
+    //         }
+    //         else
+    //         {
+    //             // Handle error response
+    //             Console.WriteLine($"Error: {response.StatusCode}");
+    //         }
+    //     }
+    // }
 }

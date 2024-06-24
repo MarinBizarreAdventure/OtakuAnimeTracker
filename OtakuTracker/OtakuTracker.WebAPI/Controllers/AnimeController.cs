@@ -81,13 +81,21 @@ public class AnimeController : ControllerBase
     }
     
     
-    [HttpGet("search")]
-    [SwaggerOperation(Summary = "Searches anime by query")]
-    [SwaggerResponse(200, "Anime search results retrieved successfully", typeof(string))]
-    public async Task<ActionResult<JsonObject>> SearchAnime([FromQuery] string query, [FromQuery] int from, [FromQuery] int size)
+    public class SearchAnimeRequest
     {
-        var request = new SearchAnimeQuery(query, from, size);
-        var result = await _mediator.Send(request);
+        public string Query { get; set; }
+        public int From { get; set; }
+        public int Size { get; set; }
+    }
+    
+    [HttpPost("search")]
+    [SwaggerOperation(Summary = "Searches anime by query")]
+    [SwaggerResponse(200, "Anime search results retrieved successfully", typeof(JsonObject))]
+    [SwaggerResponse(404, "No anime search results found")]
+    public async Task<ActionResult<JsonObject>> SearchAnime([FromBody] SearchAnimeRequest request)
+    {
+        var searchQuery = new SearchAnimeQuery(request.Query, request.From, request.Size);
+        var result = await _mediator.Send(searchQuery);
 
         if (result == null)
         {

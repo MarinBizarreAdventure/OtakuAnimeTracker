@@ -5,7 +5,6 @@ public class AnimeList
     public string Username { get; set; } = null!;
 
     public int AnimeId { get; set; }
-
     public int? Score { get; set; }
 
     public int? WatchingStatus { get; set; }
