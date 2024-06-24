@@ -10,15 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff2e2cbc-9273-42a7-9a3a-1475827825ea" name="Changes" comment="Add use corse">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.OtakuTracker/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.OtakuTracker/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeListRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Abstractions/IAnimeListRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeLists/Responses/AnimeListDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Application/Domains/AnimeLists/Responses/AnimeListDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Domain/Models/AnimeList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Domain/Models/AnimeList.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeListRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeListRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/ElasticAnimeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/ElasticAnimeRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OtakuTracker.WebAPI/Controllers/AnimeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OtakuTracker.WebAPI/Controllers/AnimeController.cs" afterDir="false" />
-    </list>
+    <list default="true" id="ff2e2cbc-9273-42a7-9a3a-1475827825ea" name="Changes" comment="Add url adn anime title to get anime list" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,6 +45,7 @@
     <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.Application/Domains/Users/Commands/RegisterUser.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/OtakuTracker.Console/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/OtakuTracker.Infrastructure/Repositories/AnimeRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.WebAPI/Controllers/AnimeController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.WebAPI/Controllers/AnimeController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/negai/RiderProjects/OtakuAnimeTracker/OtakuTracker/OtakuTracker.WebAPI/Startup.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -178,7 +171,7 @@
       <workItem from="1718812903799" duration="38296000" />
       <workItem from="1718966366697" duration="37868000" />
       <workItem from="1719053185565" duration="31811000" />
-      <workItem from="1719131894868" duration="32417000" />
+      <workItem from="1719131894868" duration="32769000" />
     </task>
     <task id="LOCAL-00001" summary="removed unused code">
       <option name="closed" value="true" />
@@ -284,7 +277,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719184911776</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Add url adn anime title to get anime list">
+      <option name="closed" value="true" />
+      <created>1719199241001</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1719199241001</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,6 +321,7 @@
     <MESSAGE value="Elastic Search" />
     <MESSAGE value="Cors and anime count" />
     <MESSAGE value="Add use corse" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add use corse" />
+    <MESSAGE value="Add url adn anime title to get anime list" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add url adn anime title to get anime list" />
   </component>
 </project>

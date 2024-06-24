@@ -28,9 +28,8 @@ public class RemoveAnimeFromUserListHandler : IRequestHandler<RemoveAnimeFromUse
 
         try
         {
-            await _unitOfWork.BeginTransactionAsync();
 
-            await _unitOfWork.AnimeListRepository.RemoveAnimeFromUserList(request.Username, request.AnimeId);
+             await _unitOfWork.AnimeListRepository.RemoveAnimeFromUserList(request.Username, request.AnimeId);
             await _unitOfWork.CommitTransactionAsync();
 
             _logger.LogInformation("AnimeList item deleted successfully");
